@@ -14,9 +14,9 @@ uv sync
 ```
 
 ## 2. Run the Django app in development mode
-The API application can be run using Makefile command which will spin up two docker containers - one for python app and one for postgres database
+The Django application can be run using Makefile command which will spin up local development server
 ```
-make rundev
+make django
 ```
 ## How to run 
 
