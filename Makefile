@@ -3,6 +3,9 @@
 run:
 	docker-compose up
 
+container:
+	docker run --name pokedex --rm -it -p 8000:8000 pokedex
+
 rm:
 	docker-compose rm --force
 
