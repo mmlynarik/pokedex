@@ -11,3 +11,6 @@ db:
 
 be:
 	fastapi dev --host "0.0.0.0" --port 8000 --reload src/vce/app.py
+
+django:
+	python src/django/manage.py migrate && python src/django/manage.py runserver
