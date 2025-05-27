@@ -28,11 +28,11 @@ WORKDIR /src
 RUN --mount=type=cache,target=/root/.cache \
     --mount=type=bind,source=uv.lock,target=uv.lock \
     --mount=type=bind,source=pyproject.toml,target=pyproject.toml \
-    uv sync --locked --no-dev --no-editable
+    uv sync --locked --no-dev
 
 
 FROM python:3.13.2-slim
 WORKDIR /app
 COPY --from=builder /app /app
 ENV PATH="/app/.venv/bin/:$PATH"
-CMD ["fastapi", "run", "--host", "0.0.0.0", "--port", "8000", ".venv/lib/python3.13/site-packages/vce/app.py"]
+# CMD ["sh", "-c", "cd src/django python manage.py migrate; gunicorn --bind 0.0.0.0:8000 pokedex.wsgi"]
