@@ -1,0 +1,49 @@
+[project]
+name = "pokedex"
+version = "0.1.0"
+description = "Django Pokedex API Project"
+readme = "README.md"
+requires-python = "==3.13.*"
+dependencies = [
+    "django>=5.2.1",
+    "django-rest-framework>=0.1.0",
+    "gunicorn>=23.0.0",
+    "psycopg2-binary>=2.9.10",
+]
+authors = [
+    { name = "Miroslav Mlynarik", email = "miroslav.mlynarik@gmail.com" }
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/"]
+
+[tool.ruff]
+line-length = 110
+exclude = ["experimental/", ".venv"]
+
+[tool.black]
+line-length = 110
+
+[tool.isort]
+profile = "black"
+line_length = 110
+
+[tool.mypy]
+ignore_missing_imports = true
+check_untyped_defs = true
+strict_equality = false
+exclude = ["^notebooks/", "migrations/"]
+
+[dependency-groups]
+dev = [
+    "black>=25.1.0",
+    "isort>=6.0.1",
+    "mypy>=1.15.0",
+    "pre-commit>=4.2.0",
+    "pytest>=8.3.5",
+    "ruff>=0.11.11",
+]
