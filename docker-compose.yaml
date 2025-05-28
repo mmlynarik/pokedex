@@ -2,7 +2,7 @@ services:
   db:
     restart: always
     image: postgres:15
-    container_name: postgres
+    container_name: db
     environment:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
@@ -11,7 +11,7 @@ services:
     volumes:
       - prod_db:/var/lib/postgresql/data
     networks:
-      - caddy
+      - pokedex
 
   django:
     build:
@@ -28,10 +28,10 @@ services:
       - db
     restart: always
     networks:
-      - caddy
+      - pokedex
 
 volumes:
   prod_db:
 
 networks:
-  caddy:
+  pokedex:
