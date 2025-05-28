@@ -26,7 +26,7 @@ make django
 ## How to run
 
 ### 1. Run dockerized application
-Ensure `docker` command is installed on the system. Then run
+Ensure `docker` command is installed on the system. Then run `docker-compose` command, which will spin up django app and postgres containers.
 ```
 docker-compose up
 ```
