@@ -19,7 +19,6 @@ RUN --mount=type=cache,target=/root/.cache \
     --mount=type=bind,source=pyproject.toml,target=pyproject.toml \
     uv sync --locked --no-dev --no-install-project
 
-
 FROM base AS builder
 
 WORKDIR /app

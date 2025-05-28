@@ -18,12 +18,12 @@ After cloning the repository, the virtual environment can be set up using the co
 uv sync
 ```
 
-## 2. Run the Django app in development mode
+### 2. Run the Django app in development mode
 The Django application can be run using Makefile command which will spin up local development server
 ```
 make django
 ```
-## How to run 
+## How to run
 
 ### 1. Run dockerized application
 Ensure `docker` command is installed on the system. Then run
