@@ -23,7 +23,7 @@ The Django application can be run using Makefile command which will spin up loca
 ```
 make django
 ```
-## How to run
+## How to deploy and run
 
 ### 1. Run dockerized application
 Ensure `docker` command is installed on the system. Then run `docker-compose` command, which will spin up django app and postgres containers.
