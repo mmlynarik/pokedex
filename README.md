@@ -8,6 +8,11 @@ This project assumes Linux or WSL operating system and uses `uv` package manager
 curl -LsSf https://astral.sh/uv/install.sh | sh
 ```
 
+We use make command below, so if the make is not present in the system, install it using apt:
+```
+sudo apt install make
+```
+
 After cloning the repository, the virtual environment can be set up using the command:
 ```
 uv sync
