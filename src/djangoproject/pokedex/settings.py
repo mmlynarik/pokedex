@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/5.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.2/ref/settings/
 """
-
+import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -73,12 +73,23 @@ WSGI_APPLICATION = "pokedex.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
-DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
-    }
+SQLITE_DATABASE = {
+    "ENGINE": "django.db.backends.sqlite3",
+    "NAME": BASE_DIR / "db.sqlite3",
 }
+
+SERVER_DATABASE = {
+    "ENGINE": "django.db.backends.postgresql",
+    "NAME": os.environ.get("BACKEND_DB_NAME"),
+    "USER": os.environ.get("BACKEND_DB_USER"),
+    "PASSWORD": os.environ.get("BACKEND_DB_PASSWORD"),
+    "HOST": os.environ.get("BACKEND_DB_HOST")
+}
+
+DATABASE_SELECTOR = {"local": SQLITE_DATABASE, "postgres": SERVER_DATABASE}
+
+DATABASES = {"default": DATABASE_SELECTOR[os.environ.get("USEDB", "local")]}
+
 
 
 # Password validation

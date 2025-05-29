@@ -22,6 +22,7 @@ services:
       - BACKEND_DB_NAME=postgres
       - BACKEND_DB_PASSWORD=postgres
       - BACKEND_DB_HOST=db
+      - USEDB=postgres
     ports:
       - 8000:8000
     depends_on:
