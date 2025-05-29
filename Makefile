@@ -14,3 +14,12 @@ db:
 
 django:
 	python src/djangoproject/manage.py migrate && python src/djangoproject/manage.py runserver
+
+makemigrations:
+	python src/djangoproject/manage.py makemigrations
+
+migrate:
+	python src/djangoproject/manage.py migrate
+
+createsuperuser:
+	python src/djangoproject/manage.py createsuperuser
