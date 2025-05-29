@@ -21,5 +21,5 @@ makemigrations:
 migrate:
 	python src/djangoproject/manage.py migrate
 
-createsuperuser:
+superuser:
 	python src/djangoproject/manage.py createsuperuser
