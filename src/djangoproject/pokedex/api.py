@@ -1,6 +1,6 @@
 from ninja import NinjaAPI
 from api.api import router
 
-api = NinjaAPI()
+api = NinjaAPI(title="Pokedex API")
 
-api.add_router("/", router)
+api.add_router("/", router, tags=["API endpoints"])
