@@ -20,8 +20,8 @@ class PokemonSpecies(models.Model):
 
 class PokemonStat(models.Model):
     class PokemonStatName(models.TextChoices):
-        HP = ("hp",)
-        ATTACK = ("attack",)
+        HP = "hp"
+        ATTACK = "attack"
         DEFENSE = "defense"
         SPECIAL_ATTACK = "special-attack"
         SPECIAL_DEFENSE = "special-defense"
