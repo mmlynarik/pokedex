@@ -8,7 +8,7 @@ from urllib.parse import urljoin
 def get_limit_query_param() -> str:
     return "?limit=100000"
 
-def get_types_url() -> str:
+def get_pokemon_types_url() -> str:
     types_url = urljoin(BASE_POKEMON_API_URL, "type")
     limit_query = get_limit_query_param()
     unlimited_url = urljoin(types_url, limit_query)
@@ -16,7 +16,7 @@ def get_types_url() -> str:
 
 
 def get_pokemon_types() -> dict[str, Any]:
-    types_url = get_types_url()
+    types_url = get_pokemon_types_url()
     data = requests.get(types_url).json()
     return data
 
