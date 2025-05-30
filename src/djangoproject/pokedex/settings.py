@@ -28,6 +28,18 @@ DEBUG = True
 ALLOWED_HOSTS = []
 
 
+LOGGING = {
+    "version": 1,
+    "formatters": {
+        "console": {"format": "[%(asctime)s] %(levelname)-5s %(process)d %(thread)d %(name)-12s %(message)s"}
+    },
+    "disable_existing_loggers": False,
+    "handlers": {"console": {"class": "logging.StreamHandler", "formatter": "console"}},
+    "loggers": {
+        "": {"level": "INFO", "handlers": ["console"]},
+    },
+}
+
 # Application definition
 
 INSTALLED_APPS = [
