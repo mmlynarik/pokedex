@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from api.models import Pokemon, PokemonForm, PokemonSpecies, PokemonStat, PokemonStatValue, PokemonType
+from pokeapp.models import Pokemon, PokemonForm, PokemonSpecies, PokemonStat, PokemonStatValue, PokemonType
 
 
 class PokemonTypeAdmin(admin.ModelAdmin):

@@ -38,7 +38,7 @@ class Migration(migrations.Migration):
                 ("cv", models.FileField(blank=True, null=True, upload_to="")),
                 (
                     "department",
-                    models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to="api.department"),
+                    models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to="pokeapp.department"),
                 ),
             ],
         ),

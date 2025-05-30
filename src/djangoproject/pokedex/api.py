@@ -1,5 +1,5 @@
 from ninja import NinjaAPI
-from api.api import router
+from pokeapp.api import router
 
 api = NinjaAPI(title="Pokedex API")
 

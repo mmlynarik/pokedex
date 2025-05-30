@@ -1,5 +1,5 @@
 from ninja import Router
-from api.models import Pokemon
+from pokeapp.models import Pokemon
 
 router = Router()
 
