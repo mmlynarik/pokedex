@@ -41,6 +41,7 @@ class Pokemon(models.Model):
     types = models.ManyToManyField(PokemonType)
     species = models.ForeignKey(PokemonSpecies, on_delete=models.CASCADE)
     weight = models.IntegerField()
+    is_species_default = models.BooleanField()
 
     def __str__(self):
         return f"{self.name}"
