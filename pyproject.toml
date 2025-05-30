@@ -24,6 +24,9 @@ build-backend = "hatchling.build"
 [tool.hatch.build.targets.wheel]
 packages = ["src/djangoproject", "src/pokedex"]
 
+[tool.uv]
+package = true
+
 [tool.ruff]
 line-length = 110
 exclude = ["experimental/", ".venv"]
