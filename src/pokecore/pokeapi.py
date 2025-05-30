@@ -1,10 +1,10 @@
 from pprint import pprint
-from typing import Any
 from urllib.parse import urljoin
 
 import requests
 
 from pokecore.config import BASE_POKEMON_API_URL
+from pokecore.datamodel import PokemonType
 
 
 def get_limit_query_param() -> str:
@@ -18,10 +18,10 @@ def get_pokemon_types_url() -> str:
     return unlimited_url
 
 
-def get_pokemon_types() -> dict[str, Any]:
+def get_pokemon_types() -> list[PokemonType]:
     types_url = get_pokemon_types_url()
     data = requests.get(types_url).json()
-    return data
+    return [PokemonType(name=i["name"]) for i in data["results"]]
 
 
 pprint(get_pokemon_types())
