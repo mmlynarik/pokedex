@@ -1,4 +1,3 @@
-from pprint import pprint
 from urllib.parse import urljoin
 
 import requests
@@ -22,6 +21,3 @@ def get_pokemon_types() -> list[PokemonType]:
     types_url = get_pokemon_types_url()
     data = requests.get(types_url).json()
     return [PokemonType(name=i["name"]) for i in data["results"]]
-
-
-pprint(get_pokemon_types())
