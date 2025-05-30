@@ -12,12 +12,6 @@ rm:
 db:
 	docker run -d --name pokedex-db -e POSTGRES_USER=postgres -e POSTGRES_PASSWORD=postgres -p 5432:5432 -v pokedex_postgres_data:/var/lib/postgresql/data postgres:15
 
-makemigrations:
-	python src/djangoproject/manage.py makemigrations
-
-migrate:
-	python src/djangoproject/manage.py migrate
-
 superuser:
 	python src/djangoproject/manage.py createsuperuser
 
