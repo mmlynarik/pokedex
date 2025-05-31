@@ -12,3 +12,7 @@ class PokemonStat(BaseModel):
 
 class PokemonSpecies(BaseModel):
     name: str
+
+
+class PokemonAbility(BaseModel):
+    name: str
