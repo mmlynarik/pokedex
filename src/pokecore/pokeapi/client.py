@@ -7,6 +7,7 @@ from pokecore.pokeapi.datamodel import (
     Pokemon,
     PokemonAbility,
     PokemonAbilityValue,
+    PokemonEvolutionChain,
     PokemonForm,
     PokemonSpecies,
     PokemonStat,
@@ -58,7 +59,7 @@ def get_pokeapi_pokemon_entity_data() -> (
     tuple[list[Pokemon], list[PokemonStatValue], list[PokemonAbilityValue]]
 ):
     """To reduce network requests, pokemons, stat values and ability values data are fetched together"""
-    pokemons, stat_values, ability_values = [], [], []
+    pokemons = []
     url = get_pokemon_resource_url("pokemon")
     index = requests.get(url).json()["results"]
     for i in index:
@@ -76,19 +77,16 @@ def get_pokeapi_pokemon_entity_data() -> (
                 types=[t["type"]["name"] for t in pokemon_data["types"]],
             )
         )
-        stats = pokemon_data["stats"]
-        for s in stats:
-            stat_values.append(
-                PokemonStatValue(pokemon=pokemon_data["name"], stat=s["stat"]["name"], value=s["base_stat"])
+        stat_values = [
+            PokemonStatValue(pokemon=pokemon_data["name"], stat=s["stat"]["name"], value=s["base_stat"])
+            for s in pokemon_data["stats"]
+        ]
+        ability_values = [
+            PokemonAbilityValue(
+                pokemon=pokemon_data["name"], ability=a["ability"]["name"], is_hidden=a["is_hidden"]
             )
-
-        abilities = pokemon_data["abilities"]
-        for a in abilities:
-            ability_values.append(
-                PokemonAbilityValue(
-                    pokemon=pokemon_data["name"], ability=a["ability"]["name"], is_hidden=a["is_hidden"]
-                )
-            )
+            for a in pokemon_data["abilities"]
+        ]
 
     return pokemons, stat_values, ability_values
 
@@ -107,3 +105,27 @@ def get_pokeapi_pokemon_forms() -> list[PokemonForm]:
             )
         )
     return pokemon_forms
+
+
+def get_pokeapi_evolution_chains() -> list[PokemonEvolutionChain]:
+    pokemon_evolution_chains: list[PokemonEvolutionChain] = []
+    url = get_pokemon_resource_url("evolution-chain")
+    index = requests.get(url).json()["results"]
+    for i in index[:30]:
+        chain_data = requests.get(i["url"]).json()
+        unevolved = chain_data["chain"]["species"]["name"]
+        first_evolution = [e1["species"]["name"] for e1 in chain_data["chain"]["evolves_to"]]
+        second_evolution = [
+            e2["species"]["name"] for e1 in chain_data["chain"]["evolves_to"] for e2 in e1["evolves_to"]
+        ]
+        members = [unevolved] + first_evolution + second_evolution
+        pokemon_evolution_chains.extend(
+            PokemonEvolutionChain(
+                species=m,
+                unevolved=unevolved,
+                first_evolution=first_evolution,
+                second_evolution=second_evolution,
+            )
+            for m in members
+        )
+    return pokemon_evolution_chains

@@ -46,3 +46,10 @@ class PokemonAbilityValue(BaseModel):
     pokemon: str
     ability: str
     is_hidden: bool
+
+
+class PokemonEvolutionChain(BaseModel):
+    species: str
+    unevolved: str
+    first_evolution: list[str]
+    second_evolution: list[str]
