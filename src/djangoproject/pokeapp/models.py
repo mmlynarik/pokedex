@@ -66,7 +66,6 @@ class PokemonStatValue(models.Model):
 
 
 class PokemonForm(models.Model):
-    name = models.CharField(max_length=64)
-    form_name = models.CharField(max_length=64)
+    form = models.CharField(max_length=64)
     pokemon = models.ForeignKey(Pokemon, on_delete=models.CASCADE)
     is_default = models.BooleanField()

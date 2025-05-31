@@ -57,12 +57,11 @@ class PokemonFormAdmin(admin.ModelAdmin):
     ordering = ("id",)
     list_display = [
         "id",
+        "form",
         "pokemon",
-        "name",
-        "form_name",
         "is_default",
     ]
-    list_filter = ["pokemon"]
+    list_filter = ["pokemon", "is_default"]
 
 
 class PokemonStatAdmin(admin.ModelAdmin):

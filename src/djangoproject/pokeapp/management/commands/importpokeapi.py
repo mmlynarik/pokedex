@@ -67,8 +67,7 @@ class Command(BaseCommand):
         pokeapi_pokemon_forms = get_pokeapi_pokemon_forms()
         for p in pokeapi_pokemon_forms:
             pokemon_form = PokemonForm(
-                name=p.name,
-                form_name=p.form_name,
+                form=p.name,
                 is_default=p.is_default,
                 pokemon=Pokemon.objects.get(name=p.pokemon),
             )
