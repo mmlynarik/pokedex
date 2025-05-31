@@ -36,6 +36,8 @@ class PokemonStat(models.Model):
         SPECIAL_ATTACK = "special-attack"
         SPECIAL_DEFENSE = "special-defense"
         SPEED = "speed"
+        ACCURACY = "accuracy"
+        EVASION = "evasion"
 
     name = models.CharField(max_length=64, choices=PokemonStatName.choices)
     is_battle_only = models.BooleanField()
