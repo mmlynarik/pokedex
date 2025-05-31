@@ -1,13 +1,13 @@
 import logging
 
 from django.core.management import BaseCommand
+
 from pokeapp.management.commands.common import get_nonempty_pokemon_table_names
 from pokeapp.models import Pokemon, PokemonAbility, PokemonForm, PokemonSpecies, PokemonStat, PokemonType
-
 from pokecore.pokeapi.client import (
     get_pokeapi_abilities,
     get_pokeapi_pokemon_forms,
-    get_pokeapi_pokemons,
+    get_pokeapi_pokemons_and_stat_values,
     get_pokeapi_species,
     get_pokeapi_stats,
     get_pokeapi_types,
@@ -47,8 +47,8 @@ class Command(BaseCommand):
         pokemon_abilities = [PokemonAbility(name=a.name) for a in pokeapi_abilities]
         PokemonAbility.objects.bulk_create(pokemon_abilities)
 
-        logger.info("Importing Pokemon data")
-        pokeapi_pokemons = get_pokeapi_pokemons()
+        logger.info("Importing Pokemon and PokemonStatValue data")
+        pokeapi_pokemons, pokeapi_stat_values = get_pokeapi_pokemons_and_stat_values()
         for p in pokeapi_pokemons:
             pokemon = Pokemon(
                 pokedex_no=p.pokedex_no,
@@ -63,6 +63,10 @@ class Command(BaseCommand):
             pokemon.types.add(*PokemonType.objects.filter(name__in=p.types))
             pokemon.abilities.add(*PokemonAbility.objects.filter(name__in=p.abilities))
 
+        for v in pokeapi_stat_values:
+            pass
+
+
         logger.info("Importing PokemonForm data")
         pokeapi_pokemon_forms = get_pokeapi_pokemon_forms()
         for f in pokeapi_pokemon_forms:
@@ -72,13 +76,3 @@ class Command(BaseCommand):
                 pokemon=Pokemon.objects.get(name=f.pokemon),
             )
             pokemon_form.save()
-
-        logger.info("Importing PokemonStatValue data")
-        # pokeapi_pokemon_forms = get_pokeapi_pokemon_forms()
-        # for p in pokeapi_pokemon_forms:
-        #     pokemon_form = PokemonForm(
-        #         form=p.form,
-        #         is_default=p.is_default,
-        #         pokemon=Pokemon.objects.get(name=p.pokemon),
-        #     )
-        #     pokemon_form.save()
