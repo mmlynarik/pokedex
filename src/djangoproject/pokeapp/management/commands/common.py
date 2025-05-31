@@ -1,7 +1,14 @@
 from django.db import models
-from pokeapp.models import Pokemon, PokemonForm, PokemonSpecies, PokemonStat, PokemonType
+from pokeapp.models import Pokemon, PokemonAbility, PokemonForm, PokemonSpecies, PokemonStat, PokemonType
 
-POKEMON_DJANGO_CLASSES: list[models.Model] = [PokemonType, PokemonStat, PokemonForm, Pokemon, PokemonSpecies]
+POKEMON_DJANGO_CLASSES: list[models.Model] = [
+    PokemonType,
+    PokemonStat,
+    PokemonForm,
+    Pokemon,
+    PokemonSpecies,
+    PokemonAbility,
+]
 
 
 def get_nonempty_pokemon_table_names() -> list[str]:
