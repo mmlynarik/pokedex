@@ -60,3 +60,4 @@ class Command(BaseCommand):
             )
             pokemon.save()
             pokemon.types.add(*PokemonType.objects.filter(name__in=p.types))
+            pokemon.abilities.add(*PokemonAbility.objects.filter(name__in=p.abilities))

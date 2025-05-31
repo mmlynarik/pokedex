@@ -49,7 +49,7 @@ def get_pokeapi_pokemons() -> list[Pokemon]:
     pokemons = []
     url = get_pokemon_resource_url("pokemon")
     index = requests.get(url).json()["results"]
-    for i in index[:10]:
+    for i in index:
         pokemon_data = requests.get(i["url"]).json()
         pokemons.append(
             Pokemon(
