@@ -54,6 +54,7 @@ def get_pokeapi_abilities() -> list[PokemonAbility]:
 
 
 def get_pokeapi_pokemons_and_stat_values() -> tuple[list[Pokemon], list[PokemonStatValue]]:
+    """In order to reduce network requests, pokemons and stat values data are fetched together"""
     pokemons = []
     stat_values = []
     url = get_pokemon_resource_url("pokemon")

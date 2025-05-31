@@ -2,7 +2,15 @@ import logging
 
 from django.core.management import BaseCommand
 from pokeapp.management.commands.common import get_nonempty_pokemon_table_names
-from pokeapp.models import Pokemon, PokemonAbility, PokemonForm, PokemonSpecies, PokemonStat, PokemonType
+from pokeapp.models import (
+    Pokemon,
+    PokemonAbility,
+    PokemonForm,
+    PokemonSpecies,
+    PokemonStat,
+    PokemonStatValue,
+    PokemonType,
+)
 
 from pokecore.pokeapi.client import (
     get_pokeapi_abilities,
@@ -63,8 +71,15 @@ class Command(BaseCommand):
             pokemon.types.add(*PokemonType.objects.filter(name__in=p.types))
             pokemon.abilities.add(*PokemonAbility.objects.filter(name__in=p.abilities))
 
-        for v in pokeapi_stat_values:
-            pass
+        stat_values = [
+            PokemonStatValue(
+                pokemon=Pokemon.objects.get(name=v.pokemon),
+                value=v.value,
+                stat=PokemonStat.objects.get(name=v.stat),
+            )
+            for v in pokeapi_stat_values
+        ]
+        PokemonStatValue.objects.bulk_create(stat_values)
 
         logger.info("Importing PokemonForm data")
         pokeapi_pokemon_forms = get_pokeapi_pokemon_forms()
