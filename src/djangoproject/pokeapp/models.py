@@ -79,6 +79,7 @@ class PokemonAbilityValue(models.Model):
 
 
 class PokemonEvolutionChain(models.Model):
-    unevolved = models.ForeignKey(PokemonSpecies, on_delete=models.CASCADE)
+    species = models.ForeignKey(PokemonSpecies, on_delete=models.CASCADE)
+    unevolved = models.CharField(max_length=64)
     first_evolution = models.JSONField()
     second_evolution = models.JSONField(null=True, blank=True)

@@ -92,6 +92,7 @@ class PokemonEvolutionChainAdmin(admin.ModelAdmin):
     ordering = ("id",)
     list_display = [
         "id",
+        "species",
         "unevolved",
         "first_evolution",
         "second_evolution",
