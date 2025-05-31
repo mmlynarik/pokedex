@@ -1,6 +1,13 @@
 from django.contrib import admin
-
-from pokeapp.models import Pokemon, PokemonForm, PokemonSpecies, PokemonStat, PokemonStatValue, PokemonType
+from pokeapp.models import (
+    Pokemon,
+    PokemonAbility,
+    PokemonForm,
+    PokemonSpecies,
+    PokemonStat,
+    PokemonStatValue,
+    PokemonType,
+)
 
 
 class PokemonTypeAdmin(admin.ModelAdmin):
@@ -21,15 +28,20 @@ class PokemonSpeciesAdmin(admin.ModelAdmin):
 
 class PokemonAdmin(admin.ModelAdmin):
     ordering = ("id",)
+    list_display = ["id", "name", "pokedex_no", "species", "weight", "height", "is_default"]
+    list_filter = ["species"]
+    filter_horizontal = (
+        "types",
+        "abilities",
+    )
+
+
+class PokemonAbilityAdmin(admin.ModelAdmin):
+    ordering = ("id",)
     list_display = [
         "id",
         "name",
-        "pokedex_no",
-        "species",
-        "weight",
     ]
-    list_filter = ["species"]
-    filter_horizontal = ("types", )
 
 
 class PokemonFormAdmin(admin.ModelAdmin):
@@ -46,20 +58,12 @@ class PokemonFormAdmin(admin.ModelAdmin):
 
 class PokemonStatAdmin(admin.ModelAdmin):
     ordering = ("id",)
-    list_display = [
-        "id",
-        "name",
-        "is_battle_only"
-    ]
+    list_display = ["id", "name", "is_battle_only"]
 
 
 class PokemonStatValueAdmin(admin.ModelAdmin):
     ordering = ("id",)
-    list_display = [
-        "id",
-        "stat",
-        "value"
-    ]
+    list_display = ["id", "stat", "value"]
 
 
 admin.site.register(PokemonType, PokemonTypeAdmin)
@@ -68,3 +72,4 @@ admin.site.register(Pokemon, PokemonAdmin)
 admin.site.register(PokemonForm, PokemonFormAdmin)
 admin.site.register(PokemonStat, PokemonStatAdmin)
 admin.site.register(PokemonStatValue, PokemonStatValueAdmin)
+admin.site.register(PokemonAbility, PokemonAbilityAdmin)

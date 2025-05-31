@@ -18,6 +18,16 @@ class PokemonSpecies(models.Model):
         verbose_name_plural = "Pokemon species"
 
 
+class PokemonAbility(models.Model):
+    name = models.CharField(max_length=32)
+
+    def __str__(self):
+        return f"{self.name}"
+
+    class Meta:
+        verbose_name_plural = "Pokemon abilities"
+
+
 class PokemonStat(models.Model):
     class PokemonStatName(models.TextChoices):
         HP = "hp"
@@ -30,7 +40,6 @@ class PokemonStat(models.Model):
     name = models.CharField(max_length=64, choices=PokemonStatName.choices)
     is_battle_only = models.BooleanField()
 
-
     def __str__(self):
         return f"{self.name}"
 
@@ -40,8 +49,11 @@ class Pokemon(models.Model):
     name = models.CharField(max_length=64)
     types = models.ManyToManyField(PokemonType)
     species = models.ForeignKey(PokemonSpecies, on_delete=models.CASCADE)
+    abilities = models.ManyToManyField(PokemonAbility)
     weight = models.IntegerField()
-    is_species_default = models.BooleanField()
+    height = models.IntegerField()
+    base_experience = models.IntegerField()
+    is_default = models.BooleanField()
 
     def __str__(self):
         return f"{self.name}"
