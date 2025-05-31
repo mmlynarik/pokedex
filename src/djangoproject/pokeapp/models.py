@@ -62,9 +62,9 @@ class Pokemon(models.Model):
 
 
 class PokemonStatValue(models.Model):
+    pokemon = models.ForeignKey(Pokemon, on_delete=models.CASCADE)
     stat = models.ForeignKey(PokemonStat, on_delete=models.CASCADE)
     value = models.IntegerField()
-    pokemon = models.ForeignKey(Pokemon, on_delete=models.CASCADE)
 
 
 class PokemonForm(models.Model):

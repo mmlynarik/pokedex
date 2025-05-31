@@ -82,10 +82,9 @@ def get_pokeapi_pokemon_forms() -> list[PokemonForm]:
         pokemon_form_data = requests.get(i["url"]).json()
         pokemon_forms.append(
             PokemonForm(
-                name=pokemon_form_data["name"],
-                form_name=pokemon_form_data["form_name"],
-                is_default=pokemon_form_data["is_default"],
+                form=pokemon_form_data["name"],
                 pokemon=pokemon_form_data["pokemon"]["name"],
+                is_default=pokemon_form_data["is_default"],
             )
         )
     return pokemon_forms

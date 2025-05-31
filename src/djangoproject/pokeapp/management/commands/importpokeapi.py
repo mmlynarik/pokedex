@@ -65,10 +65,20 @@ class Command(BaseCommand):
 
         logger.info("Importing PokemonForm data")
         pokeapi_pokemon_forms = get_pokeapi_pokemon_forms()
-        for p in pokeapi_pokemon_forms:
+        for f in pokeapi_pokemon_forms:
             pokemon_form = PokemonForm(
-                form=p.name,
-                is_default=p.is_default,
-                pokemon=Pokemon.objects.get(name=p.pokemon),
+                form=f.form,
+                is_default=f.is_default,
+                pokemon=Pokemon.objects.get(name=f.pokemon),
             )
             pokemon_form.save()
+
+        logger.info("Importing PokemonStatValue data")
+        # pokeapi_pokemon_forms = get_pokeapi_pokemon_forms()
+        # for p in pokeapi_pokemon_forms:
+        #     pokemon_form = PokemonForm(
+        #         form=p.form,
+        #         is_default=p.is_default,
+        #         pokemon=Pokemon.objects.get(name=p.pokemon),
+        #     )
+        #     pokemon_form.save()
