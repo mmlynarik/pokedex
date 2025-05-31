@@ -10,36 +10,22 @@ def get_limit_query_param(max=100_000) -> str:
     return f"?limit={max}"
 
 
-def get_pokemon_types_url() -> str:
-    url = urljoin(BASE_POKEMON_API_URL, "type")
-    query = get_limit_query_param()
-    unlimited_url = urljoin(url, query)
-    return unlimited_url
-
-
-def get_pokemon_stats_url() -> str:
-    url = urljoin(BASE_POKEMON_API_URL, "stat")
-    query = get_limit_query_param()
-    unlimited_url = urljoin(url, query)
-    return unlimited_url
-
-
-def get_pokemon_species_url() -> str:
-    url = urljoin(BASE_POKEMON_API_URL, "pokemon-species")
+def get_pokemon_resource_url(resource: str) -> str:
+    url = urljoin(BASE_POKEMON_API_URL, resource)
     query = get_limit_query_param()
     unlimited_url = urljoin(url, query)
     return unlimited_url
 
 
 def get_pokeapi_types() -> list[PokemonType]:
-    types_url = get_pokemon_types_url()
-    data = requests.get(types_url).json()
+    url = get_pokemon_resource_url("type")
+    data = requests.get(url).json()
     return [PokemonType(name=i["name"]) for i in data["results"]]
 
 
 def get_pokemon_stats() -> list[PokemonStat]:
     stats = []
-    url = get_pokemon_stats_url()
+    url = get_pokemon_resource_url("stat")
     summary = requests.get(url).json()["results"]
     for s in summary:
         stat_data = requests.get(s["url"]).json()
@@ -48,10 +34,6 @@ def get_pokemon_stats() -> list[PokemonStat]:
 
 
 def get_pokemon_species() -> list[PokemonSpecies]:
-    species = []
-    url = get_pokemon_species_url()
-    summary = requests.get(url).json()["results"]
-    for s in summary:
-        species_data = requests.get(s["url"]).json()
-        species.append(PokemonSpecies(name=species_data["name"]))
-    return species
+    url = get_pokemon_resource_url("pokemon-species")
+    data = requests.get(url).json()
+    return [PokemonSpecies(name=i["name"]) for i in data["results"]]
