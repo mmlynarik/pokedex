@@ -13,6 +13,7 @@ from pokeapp.models import (
     PokemonType,
 )
 
+from pokecore.pokeapi import client
 from pokecore.pokeapi.client import (
     get_pokeapi_abilities,
     get_pokeapi_pokemon_entity_data,
@@ -49,9 +50,7 @@ def import_pokemon_abilities():
     PokemonAbility.objects.bulk_create(pokemon_abilities)
 
 
-def import_pokemon_entity_data():
-    """To reduce network requests, pokemons, stat values and ability values data are fetched together"""
-    pokeapi_pokemons, pokeapi_stat_values, pokeapi_ability_values = get_pokeapi_pokemon_entity_data()
+def import_pokemons(pokeapi_pokemons: list[client.Pokemon]):
     for p in pokeapi_pokemons:
         pokemon = Pokemon(
             pokedex_no=p.pokedex_no,
@@ -65,6 +64,8 @@ def import_pokemon_entity_data():
         pokemon.save()
         pokemon.types.add(*PokemonType.objects.filter(name__in=p.types))
 
+
+def import_stat_values(pokeapi_stat_values: list[client.PokemonStatValue]):
     stat_values = [
         PokemonStatValue(
             pokemon=Pokemon.objects.get(name=v.pokemon),
@@ -75,6 +76,8 @@ def import_pokemon_entity_data():
     ]
     PokemonStatValue.objects.bulk_create(stat_values)
 
+
+def import_ability_values(pokeapi_ability_values: list[client.PokemonAbilityValue]):
     ability_values = [
         PokemonAbilityValue(
             pokemon=Pokemon.objects.get(name=v.pokemon),
@@ -122,8 +125,16 @@ class Command(BaseCommand):
         logger.info("Importing PokemonAbility data")
         import_pokemon_abilities()
 
-        logger.info("Importing Pokemon, PokemonStatValue and PokemonAbilityValue data")
-        import_pokemon_entity_data()
+        pokeapi_pokemons, pokeapi_stat_values, pokeapi_ability_values = get_pokeapi_pokemon_entity_data()
+
+        logger.info("Importing Pokemon data")
+        import_pokemons(pokeapi_pokemons)
+
+        logger.info("Importing PokemonStatValue data")
+        import_stat_values(pokeapi_stat_values)
+
+        logger.info("Importing PokemonAbilityValue data")
+        import_ability_values(pokeapi_ability_values)
 
         logger.info("Importing PokemonForm data")
         import_pokemon_forms()
