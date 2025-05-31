@@ -71,7 +71,12 @@ class PokemonStatAdmin(admin.ModelAdmin):
 
 class PokemonStatValueAdmin(admin.ModelAdmin):
     ordering = ("id",)
-    list_display = ["id", "stat", "value"]
+    list_display = [
+        "id",
+        "pokemon",
+        "stat",
+        "value",
+    ]
 
 
 admin.site.register(PokemonType, PokemonTypeAdmin)
