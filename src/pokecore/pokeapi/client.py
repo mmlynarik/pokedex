@@ -118,7 +118,7 @@ def get_pokeapi_evolution_chains() -> list[PokemonEvolutionChain]:
         second_evolution = [
             e2["species"]["name"] for e1 in chain_data["chain"]["evolves_to"] for e2 in e1["evolves_to"]
         ]
-        members = [unevolved] + first_evolution + second_evolution
+        chain_members = [unevolved] + first_evolution + second_evolution
         pokemon_evolution_chains.extend(
             PokemonEvolutionChain(
                 species=m,
@@ -126,6 +126,6 @@ def get_pokeapi_evolution_chains() -> list[PokemonEvolutionChain]:
                 first_evolution=first_evolution,
                 second_evolution=second_evolution,
             )
-            for m in members
+            for m in chain_members
         )
     return pokemon_evolution_chains
