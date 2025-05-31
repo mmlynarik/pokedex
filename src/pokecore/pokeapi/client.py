@@ -3,7 +3,14 @@ from urllib.parse import urljoin
 import requests
 
 from pokecore.config import BASE_POKEMON_API_URL
-from pokecore.pokeapi.datamodel import Pokemon, PokemonAbility, PokemonSpecies, PokemonStat, PokemonType
+from pokecore.pokeapi.datamodel import (
+    Pokemon,
+    PokemonAbility,
+    PokemonForm,
+    PokemonSpecies,
+    PokemonStat,
+    PokemonType,
+)
 
 
 def get_limit_query_param(max=100_000) -> str:
@@ -65,3 +72,20 @@ def get_pokeapi_pokemons() -> list[Pokemon]:
             )
         )
     return pokemons
+
+
+def get_pokeapi_pokemon_forms() -> list[PokemonForm]:
+    pokemon_forms = []
+    url = get_pokemon_resource_url("pokemon-form")
+    index = requests.get(url).json()["results"]
+    for i in index:
+        pokemon_form_data = requests.get(i["url"]).json()
+        pokemon_forms.append(
+            PokemonForm(
+                name=pokemon_form_data["name"],
+                form_name=pokemon_form_data["form_name"],
+                is_default=pokemon_form_data["is_default"],
+                pokemon=pokemon_form_data["pokemon"]["name"],
+            )
+        )
+    return pokemon_forms

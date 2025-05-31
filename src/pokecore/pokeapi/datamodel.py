@@ -28,3 +28,10 @@ class Pokemon(BaseModel):
     height: int
     base_experience: int
     is_default: bool
+
+
+class PokemonForm(BaseModel):
+    name: str
+    form_name: str | None
+    pokemon: str
+    is_default: bool

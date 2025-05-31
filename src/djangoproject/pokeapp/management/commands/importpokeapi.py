@@ -61,3 +61,14 @@ class Command(BaseCommand):
             pokemon.save()
             pokemon.types.add(*PokemonType.objects.filter(name__in=p.types))
             pokemon.abilities.add(*PokemonAbility.objects.filter(name__in=p.abilities))
+
+        logger.info("Importing PokemonForm data")
+        # pokeapi_pokemon_forms = get_pokeapi_pokemon_forms()
+        # for p in pokeapi_pokemon_forms:
+        #     pokemon_form = PokemonForm(
+        #         name=p.name,
+        #         form_name=p.form_name,
+        #         is_default=p.is_default,
+        #         pokemon=Pokemon.objects.get(name=p.pokemon),
+        #     )
+        #     pokemon_form.save()

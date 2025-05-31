@@ -8,6 +8,7 @@ POKEMON_DJANGO_CLASSES: list[models.Model] = [
     Pokemon,
     PokemonSpecies,
     PokemonAbility,
+    PokemonForm,
 ]
 
 
