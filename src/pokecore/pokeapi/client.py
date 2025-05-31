@@ -44,6 +44,7 @@ def get_pokeapi_stats() -> list[PokemonStat]:
 
 
 def get_pokeapi_species() -> list[PokemonSpecies]:
+    """Pokemons within each species share some properties, yet they represent standalone pokemon entities"""
     url = get_pokemon_resource_url("pokemon-species")
     index = requests.get(url).json()["results"]
     return [PokemonSpecies(name=i["name"]) for i in index]
@@ -92,6 +93,7 @@ def get_pokeapi_pokemon_entity_data() -> (
 
 
 def get_pokeapi_pokemon_forms() -> list[PokemonForm]:
+    """Each pokemon can either have one or multiple forms, of which exactly one is default"""
     pokemon_forms = []
     url = get_pokemon_resource_url("pokemon-form")
     index = requests.get(url).json()["results"]
@@ -108,6 +110,7 @@ def get_pokeapi_pokemon_forms() -> list[PokemonForm]:
 
 
 def get_pokeapi_evolution_chains() -> list[PokemonEvolutionChain]:
+    """There are min one and max three stages of evolution chain. Each pokemon belongs to exactly one chain"""
     pokemon_evolution_chains: list[PokemonEvolutionChain] = []
     url = get_pokemon_resource_url("evolution-chain")
     index = requests.get(url).json()["results"]

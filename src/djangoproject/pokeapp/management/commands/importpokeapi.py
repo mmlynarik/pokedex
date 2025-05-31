@@ -6,6 +6,7 @@ from pokeapp.models import (
     Pokemon,
     PokemonAbility,
     PokemonAbilityValue,
+    PokemonEvolutionChain,
     PokemonForm,
     PokemonSpecies,
     PokemonStat,
@@ -16,6 +17,7 @@ from pokeapp.models import (
 from pokecore.pokeapi import client
 from pokecore.pokeapi.client import (
     get_pokeapi_abilities,
+    get_pokeapi_evolution_chains,
     get_pokeapi_pokemon_entity_data,
     get_pokeapi_pokemon_forms,
     get_pokeapi_species,
@@ -138,3 +140,8 @@ class Command(BaseCommand):
 
         logger.info("Importing PokemonForm data")
         import_pokemon_forms()
+
+        logger.info("Importing PokemonEvolutionChain data")
+        chains = get_pokeapi_evolution_chains()
+        for c in chains:
+            PokemonEvolutionChain()
