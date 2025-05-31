@@ -60,9 +60,7 @@ def get_pokeapi_pokemon_entity_data() -> (
     """
     In order to reduce network requests, pokemons, stat values and ability values data are fetched together
     """
-    pokemons = []
-    stat_values = []
-    ability_values = []
+    pokemons, stat_values, ability_values = [], [], []
     url = get_pokemon_resource_url("pokemon")
     index = requests.get(url).json()["results"]
     for i in index:
