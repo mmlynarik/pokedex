@@ -48,5 +48,15 @@ class Command(BaseCommand):
 
         logger.info("Importing Pokemon data")
         pokeapi_pokemons = get_pokeapi_pokemons()
-        pokemons = [Pokemon(name=p.name) for p in pokeapi_pokemons]
-        Pokemon.objects.bulk_create(pokemons)
+        for p in pokeapi_pokemons:
+            pokemon = Pokemon(
+                pokedex_no=p.pokedex_no,
+                name=p.name,
+                height=p.height,
+                weight=p.weight,
+                base_experience=p.base_experience,
+                is_default=p.is_default,
+                species=PokemonSpecies.objects.get(name=p.species),
+            )
+            pokemon.save()
+            pokemon.types.add(*PokemonType.objects.filter(name__in=p.types))

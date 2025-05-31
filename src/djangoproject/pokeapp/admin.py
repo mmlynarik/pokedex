@@ -28,8 +28,17 @@ class PokemonSpeciesAdmin(admin.ModelAdmin):
 
 class PokemonAdmin(admin.ModelAdmin):
     ordering = ("id",)
-    list_display = ["id", "name", "pokedex_no", "species", "weight", "height", "is_default"]
-    list_filter = ["species"]
+    list_display = [
+        "id",
+        "pokedex_no",
+        "name",
+        "species",
+        "weight",
+        "height",
+        "base_experience",
+        "is_default",
+    ]
+    list_filter = ["types"]
     filter_horizontal = (
         "types",
         "abilities",
