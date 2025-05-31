@@ -2,9 +2,9 @@ import logging
 
 from django.core.management import BaseCommand
 from pokeapp.management.commands.common import get_nonempty_pokemon_table_names
-from pokeapp.models import PokemonStat, PokemonType
+from pokeapp.models import PokemonSpecies, PokemonStat, PokemonType
 
-from pokecore.pokeapi import get_pokeapi_types, get_pokemon_stats
+from pokecore.pokeapi import get_pokeapi_types, get_pokemon_species, get_pokemon_stats
 
 logger = logging.getLogger(__name__)
 
@@ -29,3 +29,8 @@ class Command(BaseCommand):
         pokeapi_stats = get_pokemon_stats()
         pokemon_stats = [PokemonStat(name=s.name, is_battle_only=s.is_battle_only) for s in pokeapi_stats]
         PokemonStat.objects.bulk_create(pokemon_stats)
+
+        logger.info("Importing PokemonSpecies data")
+        pokeapi_species = get_pokemon_species()
+        pokemon_species = [PokemonSpecies(name=s.name) for s in pokeapi_species]
+        PokemonSpecies.objects.bulk_create(pokemon_species)
