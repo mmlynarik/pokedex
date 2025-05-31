@@ -9,6 +9,7 @@ from pokecore.pokeapi.datamodel import (
     PokemonForm,
     PokemonSpecies,
     PokemonStat,
+    PokemonStatValue,
     PokemonType,
 )
 
@@ -52,8 +53,9 @@ def get_pokeapi_abilities() -> list[PokemonAbility]:
     return [PokemonAbility(name=i["name"]) for i in index]
 
 
-def get_pokeapi_pokemons() -> list[Pokemon]:
+def get_pokeapi_pokemons_and_stat_values() -> tuple[list[Pokemon], list[PokemonStatValue]]:
     pokemons = []
+    stat_values = []
     url = get_pokemon_resource_url("pokemon")
     index = requests.get(url).json()["results"]
     for i in index:
@@ -71,7 +73,13 @@ def get_pokeapi_pokemons() -> list[Pokemon]:
                 types=[t["type"]["name"] for t in pokemon_data["types"]],
             )
         )
-    return pokemons
+        stats = pokemon_data["stats"]
+        for s in stats:
+            stat_values.append(
+                PokemonStatValue(pokemon=pokemon_data["name"], stat=s["stat"]["name"], value=s["base_stat"])
+            )
+
+    return pokemons, stat_values
 
 
 def get_pokeapi_pokemon_forms() -> list[PokemonForm]:
