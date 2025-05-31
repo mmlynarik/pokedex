@@ -3,7 +3,7 @@ from urllib.parse import urljoin
 import requests
 
 from pokecore.config import BASE_POKEMON_API_URL
-from pokecore.datamodel import PokemonAbility, PokemonSpecies, PokemonStat, PokemonType
+from pokecore.datamodel import Pokemon, PokemonAbility, PokemonSpecies, PokemonStat, PokemonType
 
 
 def get_limit_query_param(max=100_000) -> str:
@@ -19,27 +19,49 @@ def get_pokemon_resource_url(resource: str) -> str:
 
 def get_pokeapi_types() -> list[PokemonType]:
     url = get_pokemon_resource_url("type")
-    data = requests.get(url).json()
-    return [PokemonType(name=r["name"]) for r in data["results"]]
+    index = requests.get(url).json()["results"]
+    return [PokemonType(name=i["name"]) for i in index]
 
 
 def get_pokeapi_stats() -> list[PokemonStat]:
     stats = []
     url = get_pokemon_resource_url("stat")
-    summary = requests.get(url).json()["results"]
-    for s in summary:
-        stat_data = requests.get(s["url"]).json()
+    index = requests.get(url).json()["results"]
+    for i in index:
+        stat_data = requests.get(i["url"]).json()
         stats.append(PokemonStat(name=stat_data["name"], is_battle_only=stat_data["is_battle_only"]))
     return stats
 
 
 def get_pokeapi_species() -> list[PokemonSpecies]:
     url = get_pokemon_resource_url("pokemon-species")
-    data = requests.get(url).json()
-    return [PokemonSpecies(name=r["name"]) for r in data["results"]]
+    index = requests.get(url).json()["results"]
+    return [PokemonSpecies(name=i["name"]) for i in index]
 
 
 def get_pokeapi_abilities() -> list[PokemonAbility]:
     url = get_pokemon_resource_url("ability")
-    data = requests.get(url).json()
-    return [PokemonAbility(name=r["name"]) for r in data["results"]]
+    index = requests.get(url).json()["results"]
+    return [PokemonAbility(name=i["name"]) for i in index]
+
+
+def get_pokeapi_pokemon() -> list[Pokemon]:
+    pokemons = []
+    url = get_pokemon_resource_url("pokemon")
+    index = requests.get(url).json()["results"]
+    for i in index:
+        pokemon_data = requests.get(i["url"]).json()
+        pokemons.append(
+            Pokemon(
+                pokedex_no=pokemon_data["id"],
+                name=pokemon_data["name"],
+                weight=pokemon_data["weight"],
+                height=pokemon_data["height"],
+                is_default=pokemon_data["is_default"],
+                base_experience=pokemon_data["base_experience"],
+                species=pokemon_data["species"]["name"],
+                abilities=[a["ability"]["name"] for a in pokemon_data["abilities"]],
+                types=[t["type"]["name"] for t in pokemon_data["types"]],
+            )
+        )
+    return pokemons

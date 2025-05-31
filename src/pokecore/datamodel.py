@@ -16,3 +16,15 @@ class PokemonSpecies(BaseModel):
 
 class PokemonAbility(BaseModel):
     name: str
+
+
+class Pokemon(BaseModel):
+    pokedex_no: int
+    name: str
+    types: list[str]
+    species: str
+    abilities: list[str]
+    weight: int
+    height: int
+    base_experience: int
+    is_default: bool
