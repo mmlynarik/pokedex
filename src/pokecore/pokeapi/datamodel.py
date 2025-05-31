@@ -31,7 +31,12 @@ class Pokemon(BaseModel):
 
 
 class PokemonForm(BaseModel):
-    name: str
-    form_name: str | None
+    form: str
     pokemon: str
     is_default: bool
+
+
+class PokemonStatValue(BaseModel):
+    pokemon: str
+    stat: str
+    value: int
