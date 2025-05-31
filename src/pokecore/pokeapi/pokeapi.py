@@ -3,7 +3,7 @@ from urllib.parse import urljoin
 import requests
 
 from pokecore.config import BASE_POKEMON_API_URL
-from pokecore.datamodel import Pokemon, PokemonAbility, PokemonSpecies, PokemonStat, PokemonType
+from pokecore.pokeapi.datamodel import Pokemon, PokemonAbility, PokemonSpecies, PokemonStat, PokemonType
 
 
 def get_limit_query_param(max=100_000) -> str:

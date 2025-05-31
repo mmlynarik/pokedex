@@ -2,9 +2,15 @@ import logging
 
 from django.core.management import BaseCommand
 from pokeapp.management.commands.common import get_nonempty_pokemon_table_names
-from pokeapp.models import PokemonAbility, PokemonSpecies, PokemonStat, PokemonType
+from pokeapp.models import Pokemon, PokemonAbility, PokemonSpecies, PokemonStat, PokemonType
 
-from pokecore.pokeapi import get_pokeapi_abilities, get_pokeapi_species, get_pokeapi_stats, get_pokeapi_types
+from pokecore.pokeapi.pokeapi import (
+    get_pokeapi_abilities,
+    get_pokeapi_pokemon,
+    get_pokeapi_species,
+    get_pokeapi_stats,
+    get_pokeapi_types,
+)
 
 logger = logging.getLogger(__name__)
 
@@ -37,5 +43,10 @@ class Command(BaseCommand):
 
         logger.info("Importing PokemonAbility data")
         pokeapi_abilities = get_pokeapi_abilities()
-        pokemon_abilities = [PokemonAbility(name=s.name) for s in pokeapi_abilities]
+        pokemon_abilities = [PokemonAbility(name=a.name) for a in pokeapi_abilities]
         PokemonAbility.objects.bulk_create(pokemon_abilities)
+
+        logger.info("Importing Pokemon data")
+        pokeapi_pokemon = get_pokeapi_pokemon()
+        pokemons = [Pokemon(name=p.name) for p in pokeapi_pokemon]
+        Pokemon.objects.bulk_create(pokemons)
