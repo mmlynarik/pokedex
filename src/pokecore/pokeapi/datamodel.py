@@ -40,3 +40,9 @@ class PokemonStatValue(BaseModel):
     pokemon: str
     stat: str
     value: int
+
+
+class PokemonAbilityValue(BaseModel):
+    pokemon: str
+    ability: str
+    is_hidden: bool

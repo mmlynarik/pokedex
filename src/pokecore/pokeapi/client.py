@@ -6,6 +6,7 @@ from pokecore.config import BASE_POKEMON_API_URL
 from pokecore.pokeapi.datamodel import (
     Pokemon,
     PokemonAbility,
+    PokemonAbilityValue,
     PokemonForm,
     PokemonSpecies,
     PokemonStat,
@@ -53,10 +54,13 @@ def get_pokeapi_abilities() -> list[PokemonAbility]:
     return [PokemonAbility(name=i["name"]) for i in index]
 
 
-def get_pokeapi_pokemons_and_stat_values() -> tuple[list[Pokemon], list[PokemonStatValue]]:
+def get_pokeapi_pokemon_entity_data() -> (
+    tuple[list[Pokemon], list[PokemonStatValue], list[PokemonAbilityValue]]
+):
     """In order to reduce network requests, pokemons and stat values data are fetched together"""
     pokemons = []
     stat_values = []
+    ability_values = []
     url = get_pokemon_resource_url("pokemon")
     index = requests.get(url).json()["results"]
     for i in index:
@@ -80,7 +84,15 @@ def get_pokeapi_pokemons_and_stat_values() -> tuple[list[Pokemon], list[PokemonS
                 PokemonStatValue(pokemon=pokemon_data["name"], stat=s["stat"]["name"], value=s["base_stat"])
             )
 
-    return pokemons, stat_values
+        abilities = pokemon_data["abilities"]
+        for a in abilities:
+            ability_values.append(
+                PokemonAbilityValue(
+                    pokemon=pokemon_data["name"], ability=a["ability"]["name"], is_hidden=a["is_hidden"]
+                )
+            )
+
+    return pokemons, stat_values, ability_values
 
 
 def get_pokeapi_pokemon_forms() -> list[PokemonForm]:

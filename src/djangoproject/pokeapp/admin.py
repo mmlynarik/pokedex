@@ -2,6 +2,7 @@ from django.contrib import admin
 from pokeapp.models import (
     Pokemon,
     PokemonAbility,
+    PokemonAbilityValue,
     PokemonForm,
     PokemonSpecies,
     PokemonStat,
@@ -39,10 +40,7 @@ class PokemonAdmin(admin.ModelAdmin):
         "is_default",
     ]
     list_filter = ["types"]
-    filter_horizontal = (
-        "types",
-        "abilities",
-    )
+    filter_horizontal = ("types",)
 
 
 class PokemonAbilityAdmin(admin.ModelAdmin):
@@ -79,6 +77,16 @@ class PokemonStatValueAdmin(admin.ModelAdmin):
     ]
 
 
+class PokemonAbilityValueAdmin(admin.ModelAdmin):
+    ordering = ("id",)
+    list_display = [
+        "id",
+        "pokemon",
+        "ability",
+        "is_hidden",
+    ]
+
+
 admin.site.register(PokemonType, PokemonTypeAdmin)
 admin.site.register(PokemonSpecies, PokemonSpeciesAdmin)
 admin.site.register(Pokemon, PokemonAdmin)
@@ -86,3 +94,4 @@ admin.site.register(PokemonForm, PokemonFormAdmin)
 admin.site.register(PokemonStat, PokemonStatAdmin)
 admin.site.register(PokemonStatValue, PokemonStatValueAdmin)
 admin.site.register(PokemonAbility, PokemonAbilityAdmin)
+admin.site.register(PokemonAbilityValue, PokemonAbilityValueAdmin)

@@ -51,7 +51,6 @@ class Pokemon(models.Model):
     name = models.CharField(max_length=64)
     types = models.ManyToManyField(PokemonType)
     species = models.ForeignKey(PokemonSpecies, on_delete=models.CASCADE)
-    abilities = models.ManyToManyField(PokemonAbility)
     weight = models.IntegerField()
     height = models.IntegerField()
     base_experience = models.IntegerField()
@@ -71,3 +70,9 @@ class PokemonForm(models.Model):
     form = models.CharField(max_length=64)
     pokemon = models.ForeignKey(Pokemon, on_delete=models.CASCADE)
     is_default = models.BooleanField()
+
+
+class PokemonAbilityValue(models.Model):
+    pokemon = models.ForeignKey(Pokemon, on_delete=models.CASCADE)
+    ability = models.ForeignKey(PokemonAbility, on_delete=models.CASCADE)
+    is_hidden = models.BooleanField()
