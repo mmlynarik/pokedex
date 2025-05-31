@@ -36,8 +36,7 @@ def get_pokeapi_stats() -> list[PokemonStat]:
     index = requests.get(url).json()["results"]
     for i in index:
         stat_data = requests.get(i["url"]).json()
-        if stat_data["name"]:
-            stats.append(PokemonStat(name=stat_data["name"], is_battle_only=stat_data["is_battle_only"]))
+        stats.append(PokemonStat(name=stat_data["name"], is_battle_only=stat_data["is_battle_only"]))
     return stats
 
 
