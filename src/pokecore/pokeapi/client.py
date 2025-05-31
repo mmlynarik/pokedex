@@ -45,7 +45,7 @@ def get_pokeapi_abilities() -> list[PokemonAbility]:
     return [PokemonAbility(name=i["name"]) for i in index]
 
 
-def get_pokeapi_pokemon() -> list[Pokemon]:
+def get_pokeapi_pokemons() -> list[Pokemon]:
     pokemons = []
     url = get_pokemon_resource_url("pokemon")
     index = requests.get(url).json()["results"]

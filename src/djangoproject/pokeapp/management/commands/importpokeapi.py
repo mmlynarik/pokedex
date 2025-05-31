@@ -6,7 +6,7 @@ from pokeapp.models import Pokemon, PokemonAbility, PokemonSpecies, PokemonStat,
 
 from pokecore.pokeapi.client import (
     get_pokeapi_abilities,
-    get_pokeapi_pokemon,
+    get_pokeapi_pokemons,
     get_pokeapi_species,
     get_pokeapi_stats,
     get_pokeapi_types,
@@ -47,6 +47,6 @@ class Command(BaseCommand):
         PokemonAbility.objects.bulk_create(pokemon_abilities)
 
         logger.info("Importing Pokemon data")
-        pokeapi_pokemon = get_pokeapi_pokemon()
-        pokemons = [Pokemon(name=p.name) for p in pokeapi_pokemon]
+        pokeapi_pokemons = get_pokeapi_pokemons()
+        pokemons = [Pokemon(name=p.name) for p in pokeapi_pokemons]
         Pokemon.objects.bulk_create(pokemons)
