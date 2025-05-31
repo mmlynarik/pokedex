@@ -4,7 +4,7 @@ from django.core.management import BaseCommand
 from pokeapp.management.commands.common import get_nonempty_pokemon_table_names
 from pokeapp.models import Pokemon, PokemonAbility, PokemonSpecies, PokemonStat, PokemonType
 
-from pokecore.pokeapi.pokeapi import (
+from pokecore.pokeapi.client import (
     get_pokeapi_abilities,
     get_pokeapi_pokemon,
     get_pokeapi_species,
