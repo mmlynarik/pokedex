@@ -111,7 +111,7 @@ def get_pokeapi_evolution_chains() -> list[PokemonEvolutionChain]:
     pokemon_evolution_chains: list[PokemonEvolutionChain] = []
     url = get_pokemon_resource_url("evolution-chain")
     index = requests.get(url).json()["results"]
-    for i in index[:30]:
+    for i in index:
         chain_data = requests.get(i["url"]).json()
         unevolved = chain_data["chain"]["species"]["name"]
         first_evolution = [e1["species"]["name"] for e1 in chain_data["chain"]["evolves_to"]]
