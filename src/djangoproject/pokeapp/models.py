@@ -76,3 +76,9 @@ class PokemonAbilityValue(models.Model):
     pokemon = models.ForeignKey(Pokemon, on_delete=models.CASCADE)
     ability = models.ForeignKey(PokemonAbility, on_delete=models.CASCADE)
     is_hidden = models.BooleanField()
+
+
+class PokemonEvolutionChain(models.Model):
+    unevolved = models.ForeignKey(PokemonSpecies, on_delete=models.CASCADE)
+    first_evolution = models.JSONField()
+    second_evolution = models.JSONField(null=True, blank=True)

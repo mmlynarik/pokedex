@@ -3,6 +3,7 @@ from pokeapp.models import (
     Pokemon,
     PokemonAbility,
     PokemonAbilityValue,
+    PokemonEvolutionChain,
     PokemonForm,
     PokemonSpecies,
     PokemonStat,
@@ -87,6 +88,16 @@ class PokemonAbilityValueAdmin(admin.ModelAdmin):
     ]
 
 
+class PokemonEvolutionChainAdmin(admin.ModelAdmin):
+    ordering = ("id",)
+    list_display = [
+        "id",
+        "unevolved",
+        "first_evolution",
+        "second_evolution",
+    ]
+
+
 admin.site.register(PokemonType, PokemonTypeAdmin)
 admin.site.register(PokemonSpecies, PokemonSpeciesAdmin)
 admin.site.register(Pokemon, PokemonAdmin)
@@ -95,3 +106,4 @@ admin.site.register(PokemonStat, PokemonStatAdmin)
 admin.site.register(PokemonStatValue, PokemonStatValueAdmin)
 admin.site.register(PokemonAbility, PokemonAbilityAdmin)
 admin.site.register(PokemonAbilityValue, PokemonAbilityValueAdmin)
+admin.site.register(PokemonEvolutionChain, PokemonEvolutionChainAdmin)

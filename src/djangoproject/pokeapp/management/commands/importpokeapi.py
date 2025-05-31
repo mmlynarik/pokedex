@@ -50,6 +50,7 @@ def import_pokemon_abilities():
 
 
 def import_pokemon_entity_data():
+    """To reduce network requests, pokemons, stat values and ability values data are fetched together"""
     pokeapi_pokemons, pokeapi_stat_values, pokeapi_ability_values = get_pokeapi_pokemon_entity_data()
     for p in pokeapi_pokemons:
         pokemon = Pokemon(
@@ -87,13 +88,15 @@ def import_pokemon_entity_data():
 
 def import_pokemon_forms():
     pokeapi_pokemon_forms = get_pokeapi_pokemon_forms()
-    for f in pokeapi_pokemon_forms:
-        pokemon_form = PokemonForm(
+    pokemon_forms = [
+        PokemonForm(
             form=f.form,
             is_default=f.is_default,
             pokemon=Pokemon.objects.get(name=f.pokemon),
         )
-        pokemon_form.save()
+        for f in pokeapi_pokemon_forms
+    ]
+    PokemonForm.objects.bulk_create(pokemon_forms)
 
 
 class Command(BaseCommand):
