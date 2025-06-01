@@ -34,4 +34,4 @@ FROM python:3.13.2-slim
 WORKDIR /app
 COPY --from=builder /app /app
 ENV PATH="/app/.venv/bin/:$PATH"
-CMD ["sh", "-c", "cd src/djangoproject; python manage.py migrate; uvicorn pokedex.asgi:application --host 0.0.0.0 --port 8000"]
+CMD ["sh", "-c", "cd src/djangoproject; python manage.py migrate; python manage.py createsuperuser --noinput; python manage.py importpokeapi; uvicorn pokedex.asgi:application --host 0.0.0.0 --port 8000"]

@@ -23,6 +23,9 @@ services:
       - BACKEND_DB_PASSWORD=postgres
       - BACKEND_DB_HOST=db
       - USEDB=postgres
+      - DJANGO_SUPERUSER_PASSWORD=admin
+      - DJANGO_SUPERUSER_USER=admin
+      - DJANGO_SUPERUSER_EMAIL=admin@admin.com
     ports:
       - 8000:8000
     depends_on:

@@ -60,7 +60,7 @@ def get_pokeapi_pokemon_entity_data() -> (
     tuple[list[Pokemon], list[PokemonStatValue], list[PokemonAbilityValue]]
 ):
     """To reduce network requests, pokemons, stat values and ability values data are fetched together"""
-    pokemons = []
+    pokemons, stat_values, ability_values = [], [], []
     url = get_pokemon_resource_url("pokemon")
     index = requests.get(url).json()["results"]
     for i in index:
@@ -78,16 +78,20 @@ def get_pokeapi_pokemon_entity_data() -> (
                 types=[t["type"]["name"] for t in pokemon_data["types"]],
             )
         )
-        stat_values = [
-            PokemonStatValue(pokemon=pokemon_data["name"], stat=s["stat"]["name"], value=s["base_stat"])
-            for s in pokemon_data["stats"]
-        ]
-        ability_values = [
-            PokemonAbilityValue(
-                pokemon=pokemon_data["name"], ability=a["ability"]["name"], is_hidden=a["is_hidden"]
-            )
-            for a in pokemon_data["abilities"]
-        ]
+        stat_values.extend(
+            [
+                PokemonStatValue(pokemon=pokemon_data["name"], stat=s["stat"]["name"], value=s["base_stat"])
+                for s in pokemon_data["stats"]
+            ]
+        )
+        ability_values.extend(
+            [
+                PokemonAbilityValue(
+                    pokemon=pokemon_data["name"], ability=a["ability"]["name"], is_hidden=a["is_hidden"]
+                )
+                for a in pokemon_data["abilities"]
+            ]
+        )
 
     return pokemons, stat_values, ability_values
 
