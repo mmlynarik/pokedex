@@ -4,6 +4,7 @@
 - Automatic PokeAPI data fetch during first app start
 - Automatic Django Admin access (superuser created during django migration)
 - Pokedex user interaction through REST API docs provided by [Django Ninja](https://django-ninja.dev/) library
+- For better DX, `pre-commit` functionality is provided with basic git hooks set up (see `.pre-commit-config.yaml`). 
 
 ## Possible ideas for future enhancements
 - PokeAPI data revalidation
