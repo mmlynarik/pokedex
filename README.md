@@ -3,7 +3,7 @@
 ## Project Features
 - Automatic PokeAPI data fetch during first app start
 - Automatic Django Admin access (superuser created during django migration)
-- Pokedex interaction through API docs provided by Django Ninja library
+- Pokedex interaction through API docs provided by [Django Ninja](https://django-ninja.dev/) library
 - UI was not built as my strong opinion is to use Django only for backend and delegate frontend to e.g. React or other full-fledged framework
 
 
