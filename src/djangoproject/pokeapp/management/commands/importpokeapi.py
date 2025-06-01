@@ -104,6 +104,20 @@ def import_pokemon_forms():
     PokemonForm.objects.bulk_create(pokemon_forms)
 
 
+def import_evolution_chains():
+    pokeapi_chains = get_pokeapi_evolution_chains()
+    chains = [
+        PokemonEvolutionChain(
+            species=PokemonSpecies.objects.get(name=c.species),
+            unevolved=c.unevolved,
+            first_evolution=c.first_evolution,
+            second_evolution=c.second_evolution,
+        )
+        for c in pokeapi_chains
+    ]
+    PokemonEvolutionChain.objects.bulk_create(chains)
+
+
 class Command(BaseCommand):
     help = "Import basic Pokemon data from Pokemon API (pokeapi.co)"
 
@@ -142,14 +156,4 @@ class Command(BaseCommand):
         import_pokemon_forms()
 
         logger.info("Importing PokemonEvolutionChain data")
-        pokeapi_chains = get_pokeapi_evolution_chains()
-        chains = [
-            PokemonEvolutionChain(
-                species=PokemonSpecies.objects.get(name=c.species),
-                unevolved=c.unevolved,
-                first_evolution=c.first_evolution,
-                second_evolution=c.second_evolution,
-            )
-            for c in pokeapi_chains
-        ]
-        PokemonEvolutionChain.objects.bulk_create(chains)
+        import_evolution_chains()
