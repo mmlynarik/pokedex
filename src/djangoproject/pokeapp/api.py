@@ -30,7 +30,7 @@ def get_pokemon_form(request, name: str):
     pokemon_form = PokemonForm.objects.filter(form=name).first()
     if not pokemon_form:
         return 404, PokemonNotFound(msg=f"Pokemon {name} was not found. Check the spelling and try again.")
-    print(pokemon_form)
+
     pokemon = Pokemon.objects.get(name=pokemon_form.pokemon)
     return {
         "pokedex_no": pokemon.pokedex_no,
