@@ -9,7 +9,7 @@
 
 ## Possible ideas for future enhancements
 - PokeAPI data revalidation
-- Asynchronous PokeAPI data fetch using async django command and `httpx` library
+- Faster asynchronous PokeAPI data fetch using async django command and `httpx` library
 - Extended representation of PokeAPI resources in local database (new fields, relations, ...)
 
 
