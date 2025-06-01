@@ -1,5 +1,16 @@
 # Pokedex API Django Project
 
+## Project Features
+- Automatic PokeAPI data fetch during first app start
+- Automatic Django Admin access (superuser created during django migration)
+- Pokedex interaction through API docs provided by Django Ninja library
+- UI was not built as my strong opinion is to use Django only for backend and delegate frontend to e.g. React or other full-fledged framework
+
+## Possible ideas for future enhancements
+- PokeAPI data revalidation
+- Asynchronous PokeAPI data fetch using async django command and `httpx` library
+- Extended representation of PokeAPI resources in local database (new fields, relations, ...)
+
 ## How to set up project for development
 
 ### 1. Install virtual environment
