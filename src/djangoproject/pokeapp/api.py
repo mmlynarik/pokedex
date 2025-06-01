@@ -5,7 +5,7 @@ router = Router()
 
 
 @router.get("/forms/{form}")
-def get_pokemon_form(request, pokemon_form: str):
-    PokemonForm.objects.filter(name=pokemon_form)
+def get_pokemon_form(request, form: str):
+    PokemonForm.objects.filter(name=form)
 
     # return [{"id": p.pk, "pokedex_no": p.pokedex_no} for p in Pokemon.objects.all()]
