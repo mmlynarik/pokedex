@@ -12,6 +12,9 @@
 - Faster asynchronous PokeAPI data fetch using async django command and `httpx` library
 - Extended representation of PokeAPI resources in local database (new fields, relations, ...)
 
+## Notable design choices
+- EvolutionChain model was designed in a simple way, at the level of PokemonSpecies, not Pokemon itself and assuming maximum two stages of evolution (according to the info found on the Internet).
+  In order to effectively store array data in evolution stages, JSONField was used.
 
 ## How to set up project for development
 
