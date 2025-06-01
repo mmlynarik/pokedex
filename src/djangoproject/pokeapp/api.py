@@ -12,7 +12,9 @@ class PokemonDetail(Schema):
     weight: int
     height: int
     base_experience: int
-    is_default: bool
+    is_default_form: bool
+    is_species_default: bool
+    form_or_variety: str
 
 
 class PokemonNotFound(Schema):
@@ -28,8 +30,8 @@ def get_pokemon_form(request, name: str):
     pokemon_form = PokemonForm.objects.filter(form=name).first()
     if not pokemon_form:
         return 404, PokemonNotFound(msg=f"Pokemon {name} was not found. Check the spelling and try again.")
-
-    pokemon = Pokemon.objects.get(name=pokemon_form.form)
+    print(pokemon_form)
+    pokemon = Pokemon.objects.get(name=pokemon_form.pokemon)
     return {
         "pokedex_no": pokemon.pokedex_no,
         "name": pokemon_form.form,
@@ -38,5 +40,7 @@ def get_pokemon_form(request, name: str):
         "weight": pokemon.weight,
         "height": pokemon.height,
         "base_experience": pokemon.base_experience,
-        "is_default": pokemon_form.is_default,
+        "is_species_default": pokemon.is_default,
+        "is_default_form": pokemon_form.is_default,
+        "form_or_variety": "variety" if pokemon_form.form == pokemon_form.pokemon.name else "form",
     }
