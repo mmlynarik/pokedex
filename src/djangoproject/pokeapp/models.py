@@ -1,4 +1,5 @@
 from django.db import models
+from pokeapp.datamodel import PokemonDetail
 
 
 class PokemonType(models.Model):
@@ -70,6 +71,20 @@ class PokemonForm(models.Model):
     form = models.CharField(max_length=64)
     pokemon = models.ForeignKey(Pokemon, on_delete=models.CASCADE)
     is_default = models.BooleanField()
+
+    def get_pokemon_detail(self) -> PokemonDetail:
+        return PokemonDetail(
+            pokedex_no=self.pokemon.pokedex_no,
+            name=self.form,
+            types=self.pokemon.types.all().values_list("name", flat=True),
+            species=self.pokemon.species.name,
+            weight=self.pokemon.weight,
+            height=self.pokemon.height,
+            base_experience=self.pokemon.base_experience,
+            is_species_default=self.pokemon.is_default,
+            is_default_form=self.is_default,
+            form_or_variety="variety" if self.form == self.pokemon.name else "form",
+        )
 
 
 class PokemonAbilityValue(models.Model):

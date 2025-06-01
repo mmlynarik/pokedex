@@ -1,8 +1,30 @@
+from typing import Any
+
 from ninja import Router
-from pokeapp.datamodel import PokemonDetail, PokemonNotFound
-from pokeapp.models import PokemonForm
+from pokeapp.datamodel import PokemonDetail, PokemonNotFound, PokemonStatsCompare
+from pokeapp.models import Pokemon, PokemonForm, PokemonStatValue
 
 router = Router()
+
+StatsValues = list[dict[str, Any]]
+
+
+def get_not_found_error_msg(name: str) -> str:
+    return f"Pokemon {name} was not found. Check the spelling and try again. In case of composite pokemon names, use hyphen (e.g. wormadam-plant)"
+
+
+def get_stat_value_from_all_stats(name: str, stats: StatsValues):
+    for s in stats:
+        if s["stat__name"] == name:
+            return s["value"]
+
+
+def get_stat_values_from_all_stats(
+    name: str, first_stats: StatsValues, second_stats: StatsValues
+) -> tuple[int, int]:
+    first = get_stat_value_from_all_stats(name, first_stats)
+    second = get_stat_value_from_all_stats(name, second_stats)
+    return first, second
 
 
 @router.get(
@@ -13,22 +35,9 @@ router = Router()
 def get_pokemon_detail(request, name: str):
     pokemon_form = PokemonForm.objects.filter(form=name).first()
     if not pokemon_form:
-        return 404, PokemonNotFound(
-            msg=f"Pokemon {name} was not found. Check the spelling and try again. In case of composite pokemon names, use hyphen (e.g. wormadam-plant)"
-        )
+        return 404, PokemonNotFound(msg=get_not_found_error_msg(name))
 
-    return {
-        "pokedex_no": pokemon_form.pokemon.pokedex_no,
-        "name": pokemon_form.form,
-        "types": pokemon_form.pokemon.types.all().values_list("name", flat=True),
-        "species": pokemon_form.pokemon.species.name,
-        "weight": pokemon_form.pokemon.weight,
-        "height": pokemon_form.pokemon.height,
-        "base_experience": pokemon_form.pokemon.base_experience,
-        "is_species_default": pokemon_form.pokemon.is_default,
-        "is_default_form": pokemon_form.is_default,
-        "form_or_variety": "variety" if pokemon_form.form == pokemon_form.pokemon.name else "form",
-    }
+    return pokemon_form.get_pokemon_detail()
 
 
 @router.get(
@@ -38,18 +47,33 @@ def get_pokemon_detail(request, name: str):
 )
 def get_pokemon_list(request):
     pokemon_forms = PokemonForm.objects.all()
-    return [
-        {
-            "pokedex_no": pokemon_form.pokemon.pokedex_no,
-            "name": pokemon_form.form,
-            "types": pokemon_form.pokemon.types.all().values_list("name", flat=True),
-            "species": pokemon_form.pokemon.species.name,
-            "weight": pokemon_form.pokemon.weight,
-            "height": pokemon_form.pokemon.height,
-            "base_experience": pokemon_form.pokemon.base_experience,
-            "is_species_default": pokemon_form.pokemon.is_default,
-            "is_default_form": pokemon_form.is_default,
-            "form_or_variety": "variety" if pokemon_form.form == pokemon_form.pokemon.name else "form",
-        }
-        for pokemon_form in pokemon_forms
-    ]
+    return [pokemon_form.get_pokemon_detail() for pokemon_form in pokemon_forms]
+
+
+@router.get(
+    "/pokemon-compare/{first}/{second}",
+    response={200: PokemonStatsCompare, 404: PokemonNotFound},
+    summary="Compare stats of two Pokemons",
+)
+def get_pokemon_stats_comparison(request, first: str, second: str):
+    first_pokemon = Pokemon.objects.filter(name=first).first()
+    second_pokemon = Pokemon.objects.filter(name=second).first()
+
+    if not first_pokemon:
+        return 404, PokemonNotFound(msg=get_not_found_error_msg(first))
+    if not second_pokemon:
+        return 404, PokemonNotFound(msg=get_not_found_error_msg(second))
+
+    first_stats = PokemonStatValue.objects.filter(pokemon=first_pokemon).values("stat__name", "value")
+    second_stats = PokemonStatValue.objects.filter(pokemon=second_pokemon).values("stat__name", "value")
+
+    return PokemonStatsCompare(
+        first=first,
+        second=second,
+        hp=get_stat_values_from_all_stats("hp", first_stats, second_stats),
+        attack=get_stat_values_from_all_stats("attack", first_stats, second_stats),
+        defense=get_stat_values_from_all_stats("defense", first_stats, second_stats),
+        special_attack=get_stat_values_from_all_stats("special-attack", first_stats, second_stats),
+        special_defense=get_stat_values_from_all_stats("special-defense", first_stats, second_stats),
+        speed=get_stat_values_from_all_stats("speed", first_stats, second_stats),
+    )

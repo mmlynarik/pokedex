@@ -16,5 +16,16 @@ class PokemonDetail(Schema):
     form_or_variety: Literal["form", "variety"]
 
 
+class PokemonStatsCompare(Schema):
+    first: str
+    second: str
+    hp: tuple[int, int]
+    attack: tuple[int, int]
+    defense: tuple[int, int]
+    special_attack: tuple[int, int]
+    special_defense: tuple[int, int]
+    speed: tuple[int, int]
+
+
 class PokemonNotFound(Schema):
     msg: str
