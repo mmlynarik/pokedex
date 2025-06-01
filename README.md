@@ -1,9 +1,9 @@
 # Pokedex API Django Project
 
-## Project Features
+## Project features
 - Automatic PokeAPI data fetch during first app start
 - Automatic Django Admin access (superuser created during django migration)
-- Pokedex user interaction through REST API docs provided by [Django Ninja](https://django-ninja.dev/) library
+- Pokedex UI through REST API docs provided by [Django Ninja](https://django-ninja.dev/) library
 - For better DX, `pre-commit` functionality is provided with basic git hooks set up (see `.pre-commit-config.yaml`). 
 
 ## Possible ideas for future enhancements
@@ -12,11 +12,12 @@
 - Extended representation of PokeAPI resources in local database (new fields, relations, ...)
 
 ## Notable design choices
-- Top-level folder structure was divided into two packages - `djangoproject` and `pokecore`, in order to decouple the core domain layer including fetching PokeAPI data from the presentation and database layer provided by Django app.
+- Top-level folder structure was divided into two packages - `djangoproject` and `pokecore`, in order to decouple the core domain layer (including fetching PokeAPI data) from the presentation and database layer provided by Django app.
 - `EvolutionChain` model was designed in a simple way, at the level of `PokemonSpecies`, not `Pokemon` and assuming maximum two stages of evolution (according to the info found on the Internet).
   In order to effectively store array data in evolution stages, `JSONField` was used.
-- For exposing REST API endpoints, [Django Ninja](https://django-ninja.dev/) library was chosen instead of Django Rest Framework, because it's quite popular, maintained, and offers async support similar to FastAPI as well as overall ergonomics inspired by FastAPI.
-- Selection of database that django app is interacting with is conveniently implemented using `USEDB` env variable (possible values `local` and `postgres`). This env variable is used in django's `settings.py`
+- Pokemon detail and Pokemon list endpoints were designed to allow fetching data about **both** `Pokemons` and `PokemonForms`, distinguished by the response field `form_or_variety`.
+- For exposing REST API endpoints, [Django Ninja](https://django-ninja.dev/) library was chosen instead of Django REST Framework, because it's quite popular, maintained, and offers async support out-of-the-box similar to FastAPI as well as overall ergonomics inspired by FastAPI.
+- Selection of the database django app is interacting with is conveniently implemented using `USEDB` env variable (possible values `local` and `postgres`). This env variable is used in django's `settings.py`
 - At deployment, database is provided as a `postgres` docker container, at development as a `sqlite` database
 - UI was not built as my strong opinion is to use Django only for backend and delegate frontend to e.g. React or other full-fledged framework
 
