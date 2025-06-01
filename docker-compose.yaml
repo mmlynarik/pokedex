@@ -25,7 +25,7 @@ services:
       - USEDB=postgres
       - DJANGO_SUPERUSER_PASSWORD=admin
       - DJANGO_SUPERUSER_USER=admin
-      - DJANGO_SUPERUSER_EMAIL=admin@admin.com
+      - DJANGO_SUPERUSER_EMAIL=
     ports:
       - 8000:8000
     depends_on:
