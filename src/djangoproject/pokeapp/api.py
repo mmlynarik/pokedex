@@ -8,8 +8,10 @@ class PokemonDetail(Schema):
     pokedex_no: int
     name: str
     types: list[str]
+    species: str
     weight: int
     height: int
+    base_experience: int
     is_default: bool
 
 
@@ -32,7 +34,9 @@ def get_pokemon_form(request, name: str):
         "pokedex_no": pokemon.pokedex_no,
         "name": pokemon_form.form,
         "types": pokemon.types.all().values_list("name", flat=True),
+        "species": pokemon.species.name,
         "weight": pokemon.weight,
         "height": pokemon.height,
+        "base_experience": pokemon.base_experience,
         "is_default": pokemon_form.is_default,
     }
