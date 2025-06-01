@@ -34,7 +34,7 @@ def get_pokemon_list(request):
     response={200: PokemonStatsCompare, 404: PokemonNotFound},
     summary="Compare stats of two Pokemons",
 )
-def get_pokemon_stats_comparison(request, first: str, second: str):
+def compare_pokemon_stats(request, first: str, second: str):
     first_pokemon = Pokemon.objects.filter(name=first).first()
     second_pokemon = Pokemon.objects.filter(name=second).first()
 
