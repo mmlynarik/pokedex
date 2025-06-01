@@ -36,3 +36,9 @@ API docs can be found at
 ```
 http://127.0.0.1:8000/api/docs
 ```
+
+### 3. Django Admin access for data preview:
+Fetched data from PokeAPI can be previewed using `admin/admin` credentials at
+```
+http://127.0.0.1:8000/admin
+```
