@@ -142,6 +142,14 @@ class Command(BaseCommand):
         import_pokemon_forms()
 
         logger.info("Importing PokemonEvolutionChain data")
-        chains = get_pokeapi_evolution_chains()
-        for c in chains:
-            PokemonEvolutionChain()
+        pokeapi_chains = get_pokeapi_evolution_chains()
+        chains = [
+            PokemonEvolutionChain(
+                species=PokemonSpecies.objects.get(name=c.species),
+                unevolved=c.unevolved,
+                first_evolution=c.first_evolution,
+                second_evolution=c.second_evolution,
+            )
+            for c in pokeapi_chains
+        ]
+        PokemonEvolutionChain.objects.bulk_create(chains)
