@@ -17,7 +17,7 @@
   In order to effectively store array data in evolution stages, `JSONField` was used.
 - Pokemon detail and Pokemon list endpoints were designed to allow fetching data about **both** `Pokemons` and `PokemonForms`, distinguished by the response field `form_or_variety`.
 - For exposing REST API endpoints, [Django Ninja](https://django-ninja.dev/) library was chosen instead of Django REST Framework, because it's quite popular, maintained, and offers async support out-of-the-box similar to FastAPI as well as overall ergonomics inspired by FastAPI.
-- Selection of database that django app is interacting with is conveniently implemented using `USEDB` env variable (possible values `local` and `postgres`). This env variable is used in django's `settings.py`
+- Selection of the database django app is interacting with is conveniently implemented using `USEDB` env variable (possible values `local` and `postgres`). This env variable is used in django's `settings.py`
 - At deployment, database is provided as a `postgres` docker container, at development as a `sqlite` database
 - UI was not built as my strong opinion is to use Django only for backend and delegate frontend to e.g. React or other full-fledged framework
 
