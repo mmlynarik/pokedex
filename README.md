@@ -15,7 +15,7 @@
 ## Notable design choices
 - `EvolutionChain` model was designed in a simple way, at the level of `PokemonSpecies`, not `Pokemon` and assuming maximum two stages of evolution (according to the info found on the Internet).
   In order to effectively store array data in evolution stages, `JSONField` was used.
-- For exposing REST API endpoints, Django ninja library was chosen instead of Django Rest Framework, because it's quite popular, maintained, and offers async support similar to FastAPI as well as overall ergonomics inspired by FastAPI.
+- For exposing REST API endpoints, (Django ninja)[https://django-ninja.dev/] library was chosen instead of Django Rest Framework, because it's quite popular, maintained, and offers async support similar to FastAPI as well as overall ergonomics inspired by FastAPI.
 
 ## How to set up project for development
 
