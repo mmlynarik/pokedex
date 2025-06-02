@@ -15,6 +15,7 @@ class PokemonDetail(Schema):
     is_species_default: bool
     form_or_variety: Literal["form", "variety"]
     stats: dict[str, int]
+    abilities: dict[str, str]
 
 
 class PokemonStatsCompare(Schema):

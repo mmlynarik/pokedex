@@ -1,7 +1,7 @@
 from typing import Any
 
 from pokeapp.datamodel import PokemonDetail
-from pokeapp.models import Pokemon, PokemonForm, PokemonStatValue
+from pokeapp.models import Pokemon, PokemonAbilityValue, PokemonForm, PokemonStatValue
 
 StatsValues = list[dict[str, Any]]
 
@@ -11,12 +11,18 @@ def get_not_found_error_msg(name: str) -> str:
 
 
 def get_stats_values_for_pokemon(pokemon: Pokemon):
-    first_stats = PokemonStatValue.objects.filter(pokemon=pokemon).values("stat__name", "value")
-    return {s["stat__name"]: s["value"] for s in first_stats}
+    stats = PokemonStatValue.objects.filter(pokemon=pokemon).values("stat__name", "value")
+    return {s["stat__name"]: s["value"] for s in stats}
+
+
+def get_ability_values_for_pokemon(pokemon: Pokemon):
+    abilities = PokemonAbilityValue.objects.filter(pokemon=pokemon).values("ability__name", "is_hidden")
+    return {s["ability__name"]: "hidden" if s["is_hidden"] else "not-hidden" for s in abilities}
 
 
 def get_pokemon_detail_from_form(pokemon_form: PokemonForm) -> PokemonDetail:
     stats = get_stats_values_for_pokemon(pokemon_form.pokemon)
+    abilities = get_ability_values_for_pokemon(pokemon_form.pokemon)
     return PokemonDetail(
         pokedex_no=pokemon_form.pokemon.pokedex_no,
         name=pokemon_form.form,
@@ -29,4 +35,5 @@ def get_pokemon_detail_from_form(pokemon_form: PokemonForm) -> PokemonDetail:
         is_default_form=pokemon_form.is_default,
         form_or_variety="variety" if pokemon_form.form == pokemon_form.pokemon.name else "form",
         stats=stats,
+        abilities=abilities,
     )
