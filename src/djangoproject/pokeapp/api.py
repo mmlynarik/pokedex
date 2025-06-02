@@ -1,7 +1,7 @@
 from ninja import Router
 from pokeapp.datamodel import PokemonDetail, PokemonNotFound, PokemonStatsCompare
 from pokeapp.models import Pokemon, PokemonForm
-from pokeapp.utils import get_not_found_error_msg, get_stats_values_for_pokemon
+from pokeapp.utils import get_not_found_error_msg, get_pokemon_detail_from_form, get_stats_values_for_pokemon
 
 router = Router()
 
@@ -16,7 +16,7 @@ def get_pokemon_detail(request, name: str):
     if not pokemon_form:
         return 404, PokemonNotFound(msg=get_not_found_error_msg(name))
 
-    return pokemon_form.get_pokemon_detail()
+    return get_pokemon_detail_from_form(pokemon_form)
 
 
 @router.get(
@@ -26,7 +26,7 @@ def get_pokemon_detail(request, name: str):
 )
 def get_pokemon_list(request):
     pokemon_forms = PokemonForm.objects.all()
-    return [pokemon_form.get_pokemon_detail() for pokemon_form in pokemon_forms]
+    return [get_pokemon_detail_from_form(pokemon_form) for pokemon_form in pokemon_forms]
 
 
 @router.get(
