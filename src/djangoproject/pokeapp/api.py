@@ -1,7 +1,7 @@
 from ninja import Router
 from pokeapp.datamodel import PokemonDetail, PokemonNotFound, PokemonStatsCompare
-from pokeapp.models import Pokemon, PokemonForm, PokemonStatValue
-from pokeapp.utils import get_not_found_error_msg, get_stat_values_from_all_stats
+from pokeapp.models import Pokemon, PokemonForm
+from pokeapp.utils import get_not_found_error_msg, get_stats_values_for_pokemon
 
 router = Router()
 
@@ -43,16 +43,16 @@ def compare_pokemon_stats(request, first: str, second: str):
     if not second_pokemon:
         return 404, PokemonNotFound(msg=get_not_found_error_msg(second))
 
-    first_stats = PokemonStatValue.objects.filter(pokemon=first_pokemon).values("stat__name", "value")
-    second_stats = PokemonStatValue.objects.filter(pokemon=second_pokemon).values("stat__name", "value")
+    first_stats = get_stats_values_for_pokemon(first_pokemon)
+    second_stats = get_stats_values_for_pokemon(second_pokemon)
 
     return PokemonStatsCompare(
         first=first,
         second=second,
-        hp=get_stat_values_from_all_stats("hp", first_stats, second_stats),
-        attack=get_stat_values_from_all_stats("attack", first_stats, second_stats),
-        defense=get_stat_values_from_all_stats("defense", first_stats, second_stats),
-        special_attack=get_stat_values_from_all_stats("special-attack", first_stats, second_stats),
-        special_defense=get_stat_values_from_all_stats("special-defense", first_stats, second_stats),
-        speed=get_stat_values_from_all_stats("speed", first_stats, second_stats),
+        hp=[first_stats["hp"], second_stats["hp"]],
+        attack=[first_stats["attack"], second_stats["attack"]],
+        defense=[first_stats["defense"], second_stats["defense"]],
+        special_attack=[first_stats["special-attack"], second_stats["special-attack"]],
+        special_defense=[first_stats["special-defense"], second_stats["special-defense"]],
+        speed=[first_stats["speed"], second_stats["speed"]],
     )
