@@ -34,5 +34,11 @@ class PokemonStatsCompare(Schema):
     speed: tuple[int, int]
 
 
+class EvolutionChain(Schema):
+    unevolved: str
+    first_evolution: list[str]
+    second_evolution: list[str]
+
+
 class PokemonNotFound(Schema):
     msg: str
