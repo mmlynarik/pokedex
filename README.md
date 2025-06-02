@@ -11,6 +11,7 @@
 - Faster asynchronous PokeAPI data fetch using async django command and `httpx` library
 - Extended representation of PokeAPI resources in local database (new fields, relations, ...)
 - Pagination for Pokemon list endpoint
+- Full asynchronous request stack (from endpoint handler to ORM) using async/await
 
 ## Notable design choices
 - Top-level folder structure was divided into two packages - `djangoproject` and `pokecore`, in order to decouple the core domain layer (including fetching PokeAPI data) from the presentation and database layer provided by Django app.
