@@ -1,5 +1,5 @@
 from ninja import Router
-from pokeapp.datamodel import PokemonDetail, PokemonNotFound, PokemonStatsCompare
+from pokeapp.datamodel import PokemonDetail, PokemonNotFound, PokemonsList, PokemonStatsCompare
 from pokeapp.models import Pokemon, PokemonForm
 from pokeapp.utils import get_not_found_error_msg, get_pokemon_detail_from_form, get_stats_values_for_pokemon
 
@@ -21,12 +21,15 @@ def get_pokemon_detail(request, name: str):
 
 @router.get(
     "/pokemon",
-    response={200: list[PokemonDetail]},
-    summary="Retrieve list of all Pokemons and PokemonForms from Pokedex",
+    response={200: PokemonsList},
+    summary="Retrieve list of all or filtered Pokemons and PokemonForms from Pokedex",
 )
 def get_pokemon_list(request):
     pokemon_forms = PokemonForm.objects.all()
-    return [get_pokemon_detail_from_form(pokemon_form) for pokemon_form in pokemon_forms]
+    return PokemonsList(
+        count=pokemon_forms.count(),
+        pokemons=[get_pokemon_detail_from_form(pokemon_form) for pokemon_form in pokemon_forms],
+    )
 
 
 @router.get(

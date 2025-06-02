@@ -18,6 +18,11 @@ class PokemonDetail(Schema):
     abilities: dict[str, str]
 
 
+class PokemonsList(Schema):
+    count: int
+    pokemons: list[PokemonDetail]
+
+
 class PokemonStatsCompare(Schema):
     first: str
     second: str
