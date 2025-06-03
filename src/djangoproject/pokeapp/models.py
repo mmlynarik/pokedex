@@ -65,6 +65,9 @@ class PokemonStatValue(models.Model):
     stat = models.ForeignKey(PokemonStat, on_delete=models.CASCADE)
     value = models.IntegerField()
 
+    class Meta:
+        constraints = [models.UniqueConstraint(fields=["pokemon", "stat"], name="unique_stat_value")]
+
 
 class PokemonForm(models.Model):
     form = models.CharField(max_length=64)
@@ -76,6 +79,11 @@ class PokemonAbilityValue(models.Model):
     pokemon = models.ForeignKey(Pokemon, on_delete=models.CASCADE)
     ability = models.ForeignKey(PokemonAbility, on_delete=models.CASCADE)
     is_hidden = models.BooleanField()
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(fields=["pokemon", "ability", "is_hidden"], name="unique_ability_value")
+        ]
 
 
 class PokemonEvolutionChain(models.Model):
