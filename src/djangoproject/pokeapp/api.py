@@ -1,4 +1,4 @@
-from ninja import Router
+from ninja import Field, FilterSchema, Query, Router
 from pokeapp.datamodel import (
     EvolutionChain,
     PokemonDetail,
@@ -25,13 +25,20 @@ def get_pokemon_detail(request, name: str):
     return get_pokemon_detail_from_form(pokemon_form)
 
 
+class PokemonFilterSchema(FilterSchema):
+    types: str | None = Field(None, q="__name")
+    abilities: str | None = Field(None, q="__ability__name")
+
+
 @router.get(
     "/pokemon",
     response={200: PokemonsList},
-    summary="Retrieve list of all Pokemons and PokemonForms from Pokedex",
+    summary="Retrieve list of all or filtered Pokemons and PokemonForms from Pokedex",
 )
-def get_pokemon_list(request):
-    pokemon_forms = PokemonForm.objects.all()
+def get_pokemon_list(request, filters: PokemonFilterSchema = Query(...)):
+    pokemons = Pokemon.objects.all()
+    filtered_pokemons = filters.filter(pokemons)
+    pokemon_forms = PokemonForm.objects.filter(pokemon__in=filtered_pokemons)
     return PokemonsList(
         count=pokemon_forms.count(),
         pokemons=[get_pokemon_detail_from_form(pokemon_form) for pokemon_form in pokemon_forms],
@@ -43,7 +50,7 @@ def get_pokemon_list(request):
     response={200: PokemonStatsCompare, 404: PokemonNotFound},
     summary="Compare stats of two Pokemons",
 )
-def compare_pokemon_stats(request, first: str, second: str):
+def get_pokemon_stats_comparison(request, first: str, second: str):
     first_pokemon = Pokemon.objects.filter(name=first).first()
     second_pokemon = Pokemon.objects.filter(name=second).first()
 
