@@ -1,6 +1,6 @@
 from typing import Literal
 
-from ninja import Schema
+from ninja import Field, FilterSchema, Schema
 
 
 class PokemonDetail(Schema):
@@ -21,6 +21,11 @@ class PokemonDetail(Schema):
 class PokemonsList(Schema):
     count: int
     pokemons: list[PokemonDetail]
+
+
+class PokemonFilterSchema(FilterSchema):
+    types: str | None = Field(None, q="__name")
+    abilities: str | None = Field(None, q="__ability__name")
 
 
 class PokemonStatsCompare(Schema):
