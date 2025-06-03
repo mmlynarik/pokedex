@@ -89,6 +89,8 @@ def import_ability_values(pokeapi_ability_values: list[client.PokemonAbilityValu
         for v in pokeapi_ability_values
     ]
     PokemonAbilityValue.objects.bulk_create(ability_values)
+    for p in Pokemon.objects.all():
+        p.abilities.add(*PokemonAbilityValue.objects.filter(pokemon=p))
 
 
 def import_pokemon_forms():

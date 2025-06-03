@@ -55,6 +55,7 @@ class Pokemon(models.Model):
     height = models.IntegerField()
     base_experience = models.IntegerField()
     is_default = models.BooleanField()
+    abilities = models.ManyToManyField("PokemonAbilityValue", related_name="+")
 
     def __str__(self):
         return f"{self.name}"
@@ -84,6 +85,9 @@ class PokemonAbilityValue(models.Model):
         constraints = [
             models.UniqueConstraint(fields=["pokemon", "ability", "is_hidden"], name="unique_ability_value")
         ]
+
+    def __str__(self):
+        return f"{self.pokemon.name}-{self.ability.name}"
 
 
 class PokemonEvolutionChain(models.Model):

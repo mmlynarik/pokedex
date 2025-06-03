@@ -41,7 +41,7 @@ class PokemonAdmin(admin.ModelAdmin):
         "is_default",
     ]
     list_filter = ["types"]
-    filter_horizontal = ("types",)
+    filter_horizontal = ("types", "abilities")
 
 
 class PokemonAbilityAdmin(admin.ModelAdmin):
