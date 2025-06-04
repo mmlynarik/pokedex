@@ -25,7 +25,7 @@ SECRET_KEY = "django-insecure-g7=4e^-$3svie6k8%_hiy2v$k5b9qw7*8^m**)y-=03h4wvvv!
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]
 
 
 LOGGING = {
@@ -95,13 +95,12 @@ SERVER_DATABASE = {
     "NAME": os.environ.get("BACKEND_DB_NAME"),
     "USER": os.environ.get("BACKEND_DB_USER"),
     "PASSWORD": os.environ.get("BACKEND_DB_PASSWORD"),
-    "HOST": os.environ.get("BACKEND_DB_HOST")
+    "HOST": os.environ.get("BACKEND_DB_HOST"),
 }
 
 DATABASE_SELECTOR = {"local": SQLITE_DATABASE, "postgres": SERVER_DATABASE}
 
 DATABASES = {"default": DATABASE_SELECTOR[os.environ.get("USEDB", "local")]}
-
 
 
 # Password validation
