@@ -3,6 +3,9 @@
 run:
 	docker-compose up
 
+build:
+	docker build -t pokedex .
+
 container:
 	docker run --name pokedex --rm -p 8000:8000 pokedex
 
@@ -19,3 +22,6 @@ django:
 	python src/djangoproject/manage.py makemigrations && \
 	python src/djangoproject/manage.py migrate && \
 	python src/djangoproject/manage.py runserver
+
+import:
+	python src/djangoproject/manage.py importpokeapi
