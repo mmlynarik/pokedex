@@ -78,6 +78,7 @@ def get_pokeapi_pokemon_entity_data() -> (
                 types=[t["type"]["name"] for t in pokemon_data["types"]],
             )
         )
+
         stat_values.extend(
             [
                 PokemonStatValue(pokemon=pokemon_data["name"], stat=s["stat"]["name"], value=s["base_stat"])
