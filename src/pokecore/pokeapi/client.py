@@ -1,6 +1,8 @@
 from urllib.parse import urljoin
 
 import requests
+from requests.adapters import HTTPAdapter
+from urllib3.util.retry import Retry
 
 from pokecore.config import BASE_POKEMON_API_URL
 from pokecore.pokeapi.datamodel import (
@@ -63,8 +65,14 @@ def get_pokeapi_pokemon_entity_data() -> (
     pokemons, stat_values, ability_values = [], [], []
     url = get_pokemon_resource_url("pokemon")
     index = requests.get(url).json()["results"]
+
+    session = requests.Session()
+    retry = Retry(connect=3, backoff_factor=0.5)
+    adapter = HTTPAdapter(max_retries=retry)
+    session.mount("https://", adapter)
+
     for i in index:
-        pokemon_data = requests.get(i["url"]).json()
+        pokemon_data = session.get(i["url"]).json()
         pokemons.append(
             Pokemon(
                 pokedex_no=pokemon_data["id"],
@@ -102,8 +110,14 @@ def get_pokeapi_pokemon_forms() -> list[PokemonForm]:
     pokemon_forms = []
     url = get_pokemon_resource_url("pokemon-form")
     index = requests.get(url).json()["results"]
+
+    session = requests.Session()
+    retry = Retry(connect=3, backoff_factor=0.5)
+    adapter = HTTPAdapter(max_retries=retry)
+    session.mount("https://", adapter)
+
     for i in index:
-        pokemon_form_data = requests.get(i["url"]).json()
+        pokemon_form_data = session.get(i["url"]).json()
         pokemon_forms.append(
             PokemonForm(
                 form=pokemon_form_data["name"],
