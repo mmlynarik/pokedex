@@ -24,8 +24,8 @@ class PokemonsList(Schema):
 
 
 class PokemonFilterSchema(FilterSchema):
-    types: str | None = Field(None, q="__name")
-    abilities: str | None = Field(None, q="__ability__name")
+    types: str | None = Field(None, q="__name")  # type: ignore
+    abilities: str | None = Field(None, q="__ability__name")  # type: ignore
 
 
 class PokemonStatsCompare(Schema):
