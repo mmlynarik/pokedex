@@ -56,6 +56,7 @@ def get_pokemon_stats_comparison(request, first: str, second: str):
 
     first_stats = get_stats_values_for_pokemon(first_pokemon)
     second_stats = get_stats_values_for_pokemon(second_pokemon)
+
     return PokemonStatsCompare(
         first=first,
         second=second,
